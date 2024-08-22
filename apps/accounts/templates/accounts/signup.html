@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {% include 'common/includes/static.html' %}
+
+    <title>DevSearch - Connect with Developers!</title>
+  </head>
+
+  <body>
+    <div class="auth">
+      <div class="card">
+        <div class="auth__header text-center">
+          <a href="/">
+            <img src="{% static 'images/icon.svg' %}" alt="icon" />
+          </a>
+          <h3>Account SignUp</h3>
+          <p>Create a new developer account</p>
+        </div>
+
+        <form method="post" class="form auth__form">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form__field">
+              <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                {{ field.errors }}
+                {{ field }}
+            </div>
+            <input type="hidden" name="next" value="{{ next }}">
+          {% endfor %}
+          
+          <div class="auth__actions">
+            <input class="btn btn--sub btn--lg" type="submit" value="Sign  In" />
+          </div>
+        </form>
+        <div class="auth__alternative">
+          <p>Already have an Account?</p>
+          <a href="{% url 'accounts:login' %}">Log In</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

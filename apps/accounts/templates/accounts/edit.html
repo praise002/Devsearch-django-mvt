@@ -1,0 +1,40 @@
+{% extends "common/base.html" %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<!-- Main Section -->
+<main class="formPage my-xl">
+  <!-- TODO: REMOVE BOOTSTRAP CLASSES -->
+  <button type="button" class="btn btn-dark" id="js-go-back-btn">Go back</button>
+  <a class="backButton" href="#"><i class="im im-angle-left"></i></a>
+  <div class="content-box">
+    <div class="formWrapper">
+      <a class="backButton" href="#"><i class="im im-angle-left"></i></a>
+      <br>
+
+      <form action="{% url "accounts:edit" %}" class="form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form__field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+            {{ field }}
+            <input class="input input--text" id="formInput#text" type="text" name="text"
+                placeholder="Enter text" />
+          </div>
+        {% endfor %}
+        
+        <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+        </form>
+    </div>
+  </div>
+</main>
+
+<script>
+  document.getElementById("js-go-back-btn").addEventListener("click", () => {
+    // Redirect to homepage
+    location.href = "{% url "" %}"; // TODO: WRITE LATER
+  });
+</script>
+
+{% endblock %}
