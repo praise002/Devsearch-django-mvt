@@ -1,5 +1,4 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.utils.encoding import force_str
@@ -20,7 +19,6 @@ from .forms import (
     CustomSetPasswordForm,
     LoginForm,
     RegistrationForm,
-    UserEditForm
 )
 
 import sweetify
@@ -76,7 +74,7 @@ class LoginView(LogoutRequiredMixin, View):
                 
             # passes all above test, login user
             login(request, user)
-            return redirect('gallery:home')
+            return redirect('/')
         
         context = {"form": form}
         return render(request, "accounts/login.html", context)
@@ -168,25 +166,5 @@ class LogoutAllDevices(LoginRequiredMixin, View):
     def post(self, request):
         logout(request)
         request.session.flush()  # Clear all session data
-        return redirect('gallery:home')  # Redirect to the home page or any other desired page
+        return redirect('/')  # Redirect to the home page or any other desired page
 
-class EditView(LoginRequiredMixin, View):
-    def get(self, request):
-        form = UserEditForm(instance=request.user)
-        return render(request,
-                    'accounts/edit.html',
-                    {'form': form})
-        
-    def post(self, request):
-        form = UserEditForm(instance=request.user,
-                                 data=request.POST,
-                                 files=request.FILES)
-        if form.is_valid():
-            form.save()
-            sweetify.toast(request, 'Profile updated successfully')
-        else:
-            sweetify.error(request, 'Error updating your profile')
-            
-        return render(request,
-                    'accounts/edit.html',
-                    {'form': form})

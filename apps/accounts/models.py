@@ -1,13 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from autoslug import AutoSlugField
 from .managers import CustomUserManager
 import uuid
+
+def slugify_two_fields(self):
+    return f"{self.first_name}-{self.last_name}"
 
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True)
     first_name = models.CharField(_("First name"), max_length=50)
     last_name = models.CharField(_("Last name"), max_length=50)
+    username = AutoSlugField(
+        _("Username"), populate_from=slugify_two_fields, unique=True, always_update=True
+    )
     email = models.EmailField(_("Email address"), unique=True)
     
     is_staff = models.BooleanField(default=False)

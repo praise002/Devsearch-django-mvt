@@ -40,6 +40,7 @@ class RegistrationForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={"placeholder": "••••••••", "class": "input input--password"}),
     )
 
+    usable_password = None
     
     class Meta:
         model = User
@@ -121,16 +122,14 @@ class UserEditForm(forms.ModelForm):
     first_name = forms.CharField(
         validators=[validate_name],
         max_length=50,
-        widget=forms.TextInput(attrs={"class": "input input--text"})
+        # widget=forms.TextInput(attrs={"class": "input input--text"})
     )
     last_name = forms.CharField(
         validators=[validate_name],
         max_length=50,
-        widget=forms.TextInput(attrs={"class": "input input--text"})
+        # widget=forms.TextInput(attrs={"class": "input input--text"})
     )
     
     class Meta:
         model = User
-        fields = [ 
-            "photo", 
-            ] #TODO: FIX LATER, TRANSFER TO PROFILE APP
+        fields = ["first_name", "last_name", "photo"]

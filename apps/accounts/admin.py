@@ -5,13 +5,13 @@ from apps.accounts.models import User
 
 
 class UserAdmin(BaseUserAdmin):
-    list_display = ("first_name", "last_name", "is_email_verified", "created_at")
+    list_display = ("first_name", "last_name", "username", "is_email_verified", "created_at")
     list_filter = list_display
     ordering = ("first_name", "last_name", "email")
 
     fieldsets = (
         (_("Login Credentials"), {"fields": ("email", "password")}),
-        (_("Personal Information"), {"fields": ("first_name", "last_name", "photo")}),
+        (_("Personal Information"), {"fields": ("first_name", "last_name", "username", "photo")}),
         (
             _("Permissions and Groups"),
             {
@@ -47,7 +47,8 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
 
-    readonly_fields = ("created_at", "updated_at")
+    readonly_fields = ("created_at", "updated_at", "username")
+    search_fields = ("first_name", "last_name", "email")
 
 
 admin.site.register(User, UserAdmin)
