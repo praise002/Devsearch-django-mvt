@@ -1,0 +1,65 @@
+{% extends "common/base.html" %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<main class="formPage my-xl">
+  <!-- TODO: REMOVE BOOTSTRAP CLASSES -->
+  <div class="content-box">
+    <div class="formWrapper">
+      <a class="backButton" href="javascript:history.back()"><i class="im im-angle-left"></i></a>
+      <br>
+
+      <form action="{% url "profiles:skill_edit" %}" class="form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3>Add or Update Skills:</h3>
+        {{ formset.management_form }}
+        {% for field in formset %}
+          <div class="form__field skill">
+            <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+            {{ field }} 
+          </div>
+        {% endfor %}
+        
+        <button class="btn btn--sub btn--lg  my-md" id="add-form" type="button">Add Another Skill</button>
+        <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+</main>
+
+<script>
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(input => {
+    input.classList.add('input', 'input--text');
+  });
+
+  let skillForm = document.querySelectorAll(".skill");
+  console.log(skillForm);
+  let container = document.querySelector(".form");
+  console.log(container);
+  let addButton = document.querySelector("#add-form");
+  console.log(addButton);
+  let totalForms = document.querySelector("#id_skills-TOTAL_FORMS");
+  console.log(totalForms);
+
+  let formNum = skillForm.length - 1; // Get the number of the last form on the page with zero-based indexing
+  console.log(formNum);
+
+  addButton.addEventListener('click', addForm);
+
+  function addForm(e){
+    e.preventDefault();
+
+    let newForm = skillForm[0].cloneNode(true);
+    let formRegex = RegExp(`skills-(\\d){1}-`,'g');
+
+    formNum++;
+    newForm.innerHTML = newForm.innerHTML.replace(formRegex, `skills-${formNum}-`);
+    container.insertBefore(newForm, addButton);
+    
+    totalForms.setAttribute('value', `${formNum+1}`);
+  }
+</script>
+
+{% endblock %}

@@ -845,3 +845,29 @@ img {
   margin-bottom: 1rem;
   margin-top: 2rem;
 }
+
+/* Custom style for URL input fields */
+input[type="url"] {
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--color-bg);
+  outline: none;
+  border: 2px solid var(--color-main);
+}
+
+/* Custom style for Textarea */
+textarea {
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 150px;
+  resize: vertical;
+  background-color: var(--color-bg);
+  outline: none;
+  border: 2px solid var(--color-main);
+}

@@ -19,7 +19,7 @@
             <img src="{% static 'images/icon.svg' %}" alt="icon" />
           </a>
           <h3>Account Login</h3>
-          <p>Hello {{ form.first_name }}, Welcome Back!</p>
+          {% comment %} <p>Hello {{ form.first_name }}, Welcome Back!</p> {% endcomment %}
         </div>
 
         <form method="post" action="{% url 'accounts:login' %}" class="form auth__form">

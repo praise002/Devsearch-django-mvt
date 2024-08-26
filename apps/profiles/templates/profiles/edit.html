@@ -7,13 +7,12 @@
 <main class="formPage my-xl">
   <!-- TODO: REMOVE BOOTSTRAP CLASSES -->
   {% comment %} <button type="button" class="btn btn-dark" id="js-go-back-btn">Go back</button> {% endcomment %}
-  <a class="backButton" href="javascript:history.back()"><i class="im im-angle-left"></i></a>
   <div class="content-box">
     <div class="formWrapper">
       <a class="backButton" href="javascript:history.back()"><i class="im im-angle-left"></i></a>
       <br>
 
-      <form action="{% url "profiles:edit" %}" class="form" method="POST" enctype="multipart/form-data">
+      <form action="{% url "profiles:profile_edit" %}" class="form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in user_form %}
           <div class="form__field">
@@ -22,7 +21,6 @@
           </div>
         {% endfor %}
 
-        
         {% for field in profile_form %}
           <div class="form__field">
             <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
@@ -30,14 +28,7 @@
           </div>
         {% endfor %}
         
-        {{ formset.management_form }}
-        {% for field in formset %}
-          <div class="form__field">
-            <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
-            {{ field }}
-          </div>
-        {% endfor %}
-        
+        <button class="btn btn--sub btn--lg  my-md" id="add-form" type="button">Add Another Skill</button>
         <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
       </form>
     </div>
@@ -45,11 +36,25 @@
 </main>
 
 <script>
-  const inputs = document.querySelectorAll('input');
+  const inputs = document.querySelectorAll('input:not([type="url"])');
   console.log(inputs);
   inputs.forEach(input => {
     input.classList.add('input', 'input--text');
   });
+  
+  const urlInputs = document.querySelectorAll('input[type="url"]');
+  console.log(urlInputs);
+  const textareas = document.querySelectorAll('textarea');
+  console.log(textareas);
+
+  urlInputs.forEach(input => {
+    input.classList.add('custom-url-input');
+  });
+
+  textareas.forEach(textarea => {
+    textarea.classList.add('custom-textarea');
+  });
+
   {% comment %} document.getElementById("js-go-back-btn").addEventListener("click", () => {
     // Redirect to homepage
     location.href = "{% url "" %}"; // TODO: WRITE LATER
