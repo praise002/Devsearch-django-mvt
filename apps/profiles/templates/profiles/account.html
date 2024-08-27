@@ -1,0 +1,153 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<main class="settingsPage profile my-md">
+  <div class="container">
+    <div class="layout">
+      <div class="column column--1of3">
+        <div class="card text-center">
+          <div class="card__body dev">
+            <a class="tag tag--pill tag--main settings__btn" href="{% url "profiles:profile_edit" %}"><i class="fas fa-edit"></i> Edit</a>
+            <img class="avatar avatar--xl dev__avatar" src="{% if profile.user.photo %}{{ profile.user.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" />
+            <h2 class="dev__name">{{ profile.user.full_name|default:"" }}</h2>
+            <p class="dev__title">{{ profile.short_intro|default:"" }}</p>
+            <p class="dev__location">{{ profile.location|default:"" }}</p>
+            <ul class="dev__social">
+              <li>
+                <a title="Github" href="{{ profile.social_github }}" target="_blank"><i class="fab fa-github" style="font-size:20px;"></i></a>
+              </li>
+              <li>
+                <a title="Stackoverflow" href="{{ profile.social_stackoverflow }}" target="_blank"><i class="fab fa-stack-overflow" style="font-size:20px;"></i></a>
+              </li>
+              <li>
+                <a title="Twitter" href="{{ profile.social_twitter }}" target="_blank"><i class="fab fa-twitter" style="font-size:20px;"></i></a>
+              </li>
+              <li>
+                <a title="LinkedIn" href="{{ profile.social_linkedin }}" target="_blank"><i class="fab fa-linkedin" style="font-size:20px;"></i></a>
+              </li>
+              <li>
+                <a title="Personal Website" href="{{ profile.social_website }}" target="_blank"><i class="fas fa-globe" style="font-size:20px;"></i></a>
+              </li>
+            </ul>
+            <a href="#" class="btn btn--sub btn--lg">Send Message </a>
+          </div>
+        </div>
+      </div>
+      <div class="column column--2of3">
+        <div class="devInfo">
+          <h3 class="devInfo__title">About Me</h3>
+          <p class="devInfo__about" id="shortBio">
+            {{ profile.bio|default:""|truncatewords:30 }}{% if profile.bio|length > 150 %}
+            <a href="#" onclick="toggleBio(); return false;">Read More</a>{% endif %}
+          </p>
+          <p class="devInfo__about" id="fullBio" style="display:none;">
+            {{ profile.bio|default:""|linebreaks }}
+            <a href="#" onclick="toggleBio(); return false;">Read Less</a>
+          </p>
+        </div>
+        <div class="settings">
+          <h3 class="settings__title">Skills</h3>
+          <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url "profiles:skill_add" %}"><i class="fas fa-plus"></i> Add Skill</a>
+        </div>
+
+        <table class="settings__table">
+          {% for skill in skills %}
+            <tr>
+              <td class="settings__tableInfo">
+                <h4>{{ skill.name }}</h4>
+                <p>
+                  {{ skill.description }}
+                </p>
+              </td>
+              <td class="settings__tableActions">
+                <a class="tag tag--pill tag--main settings__btn" href="{% url "profiles:skill_edit" id=skill.id %}"><i class="fas fa-edit"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url "profiles:skill_delete" id=skill.id %}"><i class="fas fa-times-circle"></i>
+                  Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+
+        <div class="settings">
+          <h3 class="settings__title">Projects</h3>
+          <a class="tag tag--pill tag--sub settings__btn tag--lg" href="#"><i class="im im-plus"></i> Add Project</a>
+        </div>
+
+        <table class="settings__table">
+          <tr>
+            <td class="settings__thumbnail">
+              <a href="single-project.html"><img src="images/project-a.png" alt="Project Thumbnail" /></a>
+            </td>
+            <td class="settings__tableInfo">
+              <a href="single-project.html">Yoga Studio Landing Page</a>
+              <p>
+                Consectetur adipisicing elit. Natus nam dolore aut sed vitae eos architecto unde tempore
+                exercitationem fugiat?...
+              </p>
+            </td>
+            <td class="settings__tableActions">
+              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
+              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
+                Delete</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="settings__thumbnail">
+              <a href="single-project.html"><img src="images/project-b.png" alt="Project Thumbnail" /></a>
+            </td>
+            <td class="settings__tableInfo">
+              <a href="single-project.html">DevSearch Website UI Design</a>
+              <p>
+                Consectetur adipisicing elit. Natus nam dolore aut sed vitae eos architecto unde tempore
+                exercitationem fugiat?...
+              </p>
+            </td>
+            <td class="settings__tableActions">
+              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
+              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
+                Delete</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="settings__thumbnail">
+              <a href="single-project.html"><img src="images/project-a.png" alt="Project Thumbnail" /></a>
+            </td>
+            <td class="settings__tableInfo">
+              <a href="single-project.html">Portfolio Website Design</a>
+              <p>
+                Consectetur adipisicing elit. Natus nam dolore aut sed vitae eos architecto unde tempore
+                exercitationem fugiat?...
+              </p>
+            </td>
+            <td class="settings__tableActions">
+              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
+              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
+                Delete</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  function toggleBio() {
+    var shortBio = document.getElementById('shortBio');
+    var fullBio = document.getElementById('fullBio');
+    var readMoreLink = shortBio.querySelector('a');
+    var readLessLink = fullBio.querySelector('a');
+
+    if (fullBio.style.display === 'none') {
+        fullBio.style.display = 'block';
+        shortBio.style.display = 'none';
+    } else {
+        fullBio.style.display = 'none';
+        shortBio.style.display = 'block';
+    }
+  }
+</script>
+{% endblock %}

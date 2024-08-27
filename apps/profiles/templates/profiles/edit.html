@@ -3,13 +3,11 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
-<!-- Main Section -->
 <main class="formPage my-xl">
-  <!-- TODO: REMOVE BOOTSTRAP CLASSES -->
   {% comment %} <button type="button" class="btn btn-dark" id="js-go-back-btn">Go back</button> {% endcomment %}
   <div class="content-box">
     <div class="formWrapper">
-      <a class="backButton" href="javascript:history.back()"><i class="im im-angle-left"></i></a>
+      <a class="backButton" href="javascript:history.back()"><i class="fa-solid fa-angle-left"></i></a>
       <br>
 
       <form action="{% url "profiles:profile_edit" %}" class="form" method="POST" enctype="multipart/form-data">
@@ -28,7 +26,6 @@
           </div>
         {% endfor %}
         
-        <button class="btn btn--sub btn--lg  my-md" id="add-form" type="button">Add Another Skill</button>
         <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
       </form>
     </div>

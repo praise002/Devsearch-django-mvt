@@ -15,5 +15,10 @@ class ProfileEditForm(forms.ModelForm):
                   "social_twitter", "social_linkedin",
                   ] 
 
+class SkillForm(forms.ModelForm):
+    class Meta:
+        model = Skill
+        fields = ['name', 'description']
+        
 # extra=1 - number of empty forms to display initially
-SkillFormSet = modelformset_factory(Skill, fields=('name', 'description'), extra=1)
+# SkillFormSet = modelformset_factory(Skill, fields=('name', 'description'), extra=1)

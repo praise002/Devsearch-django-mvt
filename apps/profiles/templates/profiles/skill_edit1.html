@@ -63,3 +63,23 @@
 </script>
 
 {% endblock %}
+
+# class SkillEditView(LoginRequiredMixin, View):
+#     def get(self, request):
+#         # Fetching all skills related to the user's profile
+#         formset = SkillFormSet(queryset=Skill.objects.filter(user=request.user.profile))
+#         return render(request,
+#                       'profiles/skill_edit.html',
+#                       {'formset': formset})
+        
+#     def post(self, request):
+#         formset = SkillFormSet(data=request.POST,
+#                                queryset=Skill.objects.filter(user=request.user.profile))
+#         if formset.is_valid():
+#             formset.save()
+#             sweetify.toast(request, 'Skills updated successfully')
+#         else:
+#             sweetify.error(request, 'Error updating skills')
+#         return render(request,
+#                       'profiles/skill_edit.html',
+#                       {'formset': formset})
