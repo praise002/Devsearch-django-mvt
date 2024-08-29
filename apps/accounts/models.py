@@ -35,6 +35,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
     
+    @property
+    def image_url(self):
+        try:
+            url = self.photo.url
+        except:
+            url = ''
+        return url
+    
     def __str__(self):
         return self.full_name
 

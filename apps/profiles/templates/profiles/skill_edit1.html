@@ -83,3 +83,12 @@
 #         return render(request,
 #                       'profiles/skill_edit.html',
 #                       {'formset': formset})
+
+class Comment(BaseModel):
+    project = models.ForeignKey(Project, related_name='comments', on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    content = models.TextField()
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name="replies")
+    # TODO: Might need to fix ordering if it doesn't affect top-level comments
+    def __str__(self):
+        return f"Comment by {self.author} on {self.project.title}"

@@ -101,7 +101,7 @@ class SkillDeleteView(LoginRequiredMixin, View):
         profile = request.user.profile
         skill = get_object_or_404(profile.skills, id=kwargs.get('id'))
         context = {'skill': skill}
-        return render(request, 'profiles/delete_template.html', context)
+        return render(request, 'delete_template.html', context)
     
     def post(self, request, *args, **kwargs):
         skill = get_object_or_404(Skill, id=kwargs.get('id'), user=request.user.profile)
@@ -109,14 +109,15 @@ class SkillDeleteView(LoginRequiredMixin, View):
         sweetify.toast(request, 'Skill was deleted successfully')
         return redirect('profiles:account')
         
-class ProfileDetailView(LoginRequiredMixin, View):
+class ProfileDetailView(View):
     def get(self, request, *args, **kwargs):
         profile = Profile.objects.get(user__username=kwargs['username'])
-        skills_with_description = profile.skills.filter(~Q(description=""))
-        skills_without_description = profile.skills.filter(description="")
+        top_skills = profile.skills.exclude(description__exact="")
+        other_skills = profile.skills.filter(description="")
+        
         context = {
             'profile': profile,
-            'skills_with_description': skills_with_description,
-            'skills_without_description': skills_without_description,
+            'top_skills': top_skills,
+            'other_skills': other_skills,
         }
         return render(request, 'profiles/profile.html', context)

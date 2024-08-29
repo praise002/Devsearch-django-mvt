@@ -39,14 +39,10 @@
       <div class="column column--2of3">
         <div class="devInfo">
           <h3 class="devInfo__title">About Me</h3>
-          <p class="devInfo__about" id="shortBio">
-            {{ profile.bio|default:""|truncatewords:30 }}{% if profile.bio|length > 150 %}
-            <a href="#" onclick="toggleBio(); return false;">Read More</a>{% endif %}
+          <p class="devInfo__about">
+            {{ profile.bio|truncatewords:40|linebreaks }}
           </p>
-          <p class="devInfo__about" id="fullBio" style="display:none;">
-            {{ profile.bio|default:""|linebreaks }}
-            <a href="#" onclick="toggleBio(); return false;">Read Less</a>
-          </p>
+          
         </div>
         <div class="settings">
           <h3 class="settings__title">Skills</h3>
@@ -59,7 +55,18 @@
               <td class="settings__tableInfo">
                 <h4>{{ skill.name }}</h4>
                 <p>
-                  {{ skill.description }}
+                  {% with skill.description|truncatewords:30 as truncated_description %}
+                    <span id="truncated-description-{{ skill.id }}">
+                      {{ truncated_description }}
+                      {% if skill.description != truncated_description %}
+                        <a href="javascript:void(0);" onclick="toggle('{{ skill.id }}')">Read more</a>
+                      {% endif %}
+                    </span>
+                  {% endwith %}
+                  <span id="full-description-{{ skill.id }}" style="display:none;">
+                    {{ skill.description }}
+                    <a href="javascript:void(0);" onclick="toggle('{{ skill.id }}')">Read less</a>
+                  </span>
                 </p>
               </td>
               <td class="settings__tableActions">
@@ -73,81 +80,32 @@
 
         <div class="settings">
           <h3 class="settings__title">Projects</h3>
-          <a class="tag tag--pill tag--sub settings__btn tag--lg" href="#"><i class="im im-plus"></i> Add Project</a>
+          <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url "projects:project_add" %}"><i class="fas fa-plus"></i> Add Project</a>
         </div>
 
         <table class="settings__table">
-          <tr>
-            <td class="settings__thumbnail">
-              <a href="single-project.html"><img src="images/project-a.png" alt="Project Thumbnail" /></a>
-            </td>
-            <td class="settings__tableInfo">
-              <a href="single-project.html">Yoga Studio Landing Page</a>
-              <p>
-                Consectetur adipisicing elit. Natus nam dolore aut sed vitae eos architecto unde tempore
-                exercitationem fugiat?...
-              </p>
-            </td>
-            <td class="settings__tableActions">
-              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
-              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
-                Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td class="settings__thumbnail">
-              <a href="single-project.html"><img src="images/project-b.png" alt="Project Thumbnail" /></a>
-            </td>
-            <td class="settings__tableInfo">
-              <a href="single-project.html">DevSearch Website UI Design</a>
-              <p>
-                Consectetur adipisicing elit. Natus nam dolore aut sed vitae eos architecto unde tempore
-                exercitationem fugiat?...
-              </p>
-            </td>
-            <td class="settings__tableActions">
-              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
-              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
-                Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td class="settings__thumbnail">
-              <a href="single-project.html"><img src="images/project-a.png" alt="Project Thumbnail" /></a>
-            </td>
-            <td class="settings__tableInfo">
-              <a href="single-project.html">Portfolio Website Design</a>
-              <p>
-                Consectetur adipisicing elit. Natus nam dolore aut sed vitae eos architecto unde tempore
-                exercitationem fugiat?...
-              </p>
-            </td>
-            <td class="settings__tableActions">
-              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-edit"></i> Edit</a>
-              <a class="tag tag--pill tag--main settings__btn" href="#"><i class="im im-x-mark-circle-o"></i>
-                Delete</a>
-            </td>
-          </tr>
+          {% for project in profile.projects.all %}
+            <tr>
+              <td class="settings__thumbnail">
+                <a href="{% url "projects:project_detail" project.id %}"><img src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="This is an image showing a '{{ project.title }}'" /></a>
+              </td>
+              <td class="settings__tableInfo">
+                <a href="{% url "projects:project_detail" project.id %}">{{ project.title }}</a>
+                <p>
+                  {{ project.description|truncatewords:20 }}
+                </p>
+              </td>
+              <td class="settings__tableActions">
+                <a class="tag tag--pill tag--main settings__btn" href="{% url "projects:project_edit" project.id %}"><i class="fas fa-edit"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url "projects:project_delete" project.id %}"><i class="fas fa-times-circle"></i>
+                  Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
         </table>
       </div>
     </div>
   </div>
 </main>
 
-<script>
-  function toggleBio() {
-    var shortBio = document.getElementById('shortBio');
-    var fullBio = document.getElementById('fullBio');
-    var readMoreLink = shortBio.querySelector('a');
-    var readLessLink = fullBio.querySelector('a');
-
-    if (fullBio.style.display === 'none') {
-        fullBio.style.display = 'block';
-        shortBio.style.display = 'none';
-    } else {
-        fullBio.style.display = 'none';
-        shortBio.style.display = 'block';
-    }
-  }
-</script>
 {% endblock %}
