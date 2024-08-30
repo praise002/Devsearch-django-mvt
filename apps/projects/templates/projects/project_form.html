@@ -1,46 +1,39 @@
 {% extends "common/base.html" %}
 
-{% block title %}Add or Edit Project{% endblock %}
+{% block title %}
+  Add or Edit Project
+{% endblock title %}
 
 {% block content %}
-<main class="formPage my-xl">
-  <div class="content-box">
-    <div class="formWrapper">
-      <a class="backButton" href="javascript:history.back()"><i class="fa-solid fa-angle-left"></i></a>
-      <br>
-
-      <form class="form" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% for field in form %}
-          <div class="form__field">
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }} 
-          </div>
-        {% endfor %}
-
-        <div class="form__field">
-          {% for tag in project.tags.all %}
-            <div class="project-tag tag tag--pill tag--main" data-tag="{{ tag.id }}"
-                data-project="{{ project.id }}">{{ tag.name }} &#215;</div>
+  <main class="formPage my-xl">
+    <div class="content-box">
+      <div class="formWrapper">
+        <a class="backButton" href="javascript:history.back()"><i class="fa-solid fa-angle-left"></i></a>
+        <br>
+        <form class="form" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form__field">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+            </div>
           {% endfor %}
-        </div>
-
-        <div class="form__field">
-          <label for="formInput#text">Tags</label>
-          <textarea class="input" name="newtags" placeholder="Add tags here...Seperate it with a comma"></textarea>
-        </div>
-        
-        <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
-      </form>
+          <div class="form__field" id="form__tag">
+            {% for tag in project.tags.all %}
+              <div class="project-tag tag tag--pill tag--main"
+                   data-tag="{{ tag.id }}"
+                   data-project="{{ project.id }}">{{ tag.name }} ×</div>
+            {% endfor %}
+          </div>
+          <div class="form__field">
+            <label for="formInput#text">Tags</label>
+            <textarea class="input"
+                      name="newtags"
+                      placeholder="Add tags here...Seperate it with a comma"></textarea>
+          </div>
+          <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+        </form>
+      </div>
     </div>
-  </div>
-</main>
-
-{% comment %} <script>
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => {
-    input.classList.add('input', 'input--text');
-  });
-</script> {% endcomment %}
-
-{% endblock %}
+  </main>
+{% endblock content %}

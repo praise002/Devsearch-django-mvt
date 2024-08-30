@@ -36,7 +36,7 @@
                 <img class="project__thumbnail" src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="This is an image showing a '{{ project.title }}'" />
                 <div class="card__body">
                   <h3 class="project__title">{{ project.title }}</h3>
-                  <p><a class="project__author" href="{% url "profiles:profile_view" username=project.owner.user.username %}">By {{ project.owner.user.full_name }}</a></p>
+                  <p><a class="project__author" href="{{ project.owner.get_absolute_url }}">By {{ project.owner.user.full_name }}</a></p>
                   <p class="project--rating">
                     <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> Positive
                     Feedback ({{ project.vote_total }} Vote{{ project.vote_total|pluralize:"s" }})

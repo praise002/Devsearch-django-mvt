@@ -34,15 +34,13 @@
 
 <script>
   const inputs = document.querySelectorAll('input:not([type="url"])');
-  console.log(inputs);
+  
   inputs.forEach(input => {
     input.classList.add('input', 'input--text');
   });
   
   const urlInputs = document.querySelectorAll('input[type="url"]');
-  console.log(urlInputs);
   const textareas = document.querySelectorAll('textarea');
-  console.log(textareas);
 
   urlInputs.forEach(input => {
     input.classList.add('custom-url-input');

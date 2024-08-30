@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from apps.common.models import BaseModel
+from django.urls import reverse
 import uuid
 
 class Skill(models.Model):
@@ -32,4 +33,7 @@ class Profile(BaseModel):
     
     def __str__(self):
         return f"{self.user.full_name}"
+    
+    def get_absolute_url(self):
+        return reverse('profiles:profile_detail', kwargs={'username': self.user.username})
 

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from apps.common.models import BaseModel
 from apps.profiles.models import Profile
 import uuid
@@ -25,6 +26,9 @@ class Project(BaseModel):
     
     class Meta:
         ordering = ['title']
+        
+    def get_absolute_url(self):
+        return reverse('projects:project_detail', kwargs={'id': self.id})
         
     @property
     def featured_image_url(self):

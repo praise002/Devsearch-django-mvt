@@ -30,7 +30,7 @@
       </div>
       <div class="column column--2of3">
         <img class="singleProject__preview" src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="This is an image showing a '{{ project.title }}'" />
-        <a href="{% url "profiles:profile_view" username=project.owner.user.username %}" class="singleProject__developer">{{ project.owner.user.full_name }}</a>
+        <a href="{{ project.profile.get_absolute_url }}" class="singleProject__developer">{{ project.owner.user.full_name }}</a>
         <h2 class="singleProject__title">{{ project.title }}</h2>
         <h3 class="singleProject__subtitle">About the Project</h3>
         <div class="singleProject__info">
@@ -78,12 +78,12 @@
           <div class="commentList">
             {% for review in project.review.all %}
             <div class="comment">
-              <a href="{% url "profiles:profile_view" username=review.reviewer.user.username %}">
+              <a href="{{ review.reviewer.get_absolute_url }}">
                 <img class="avatar avatar--md"
                   src="{{ review.reviewer.user.image_url }}" alt="A profile photo of the person that wrote a review" />
               </a>
               <div class="comment__details">
-                <a href="{% url "profiles:profile_view" username=review.reviewer.user.username %}" class="comment__author">{{ review.reviewer.user.full_name }}</a>
+                <a href="{{ review.reviewer.get_absolute_url }}" class="comment__author">{{ review.reviewer.user.full_name }}</a>
                 <p class="comment__info">
                   {{ review.content|linebreaks }}
                 </p>

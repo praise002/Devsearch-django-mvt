@@ -16,21 +16,31 @@
             <p class="dev__title">{{ profile.short_intro|default:"" }}</p>
             <p class="dev__location">{{ profile.location|default:"" }}</p>
             <ul class="dev__social">
-              <li>
-                <a title="Github" href="{{ profile.social_github }}" target="_blank"><i class="fab fa-github" style="font-size:20px;"></i></a>
-              </li>
-              <li>
-                <a title="Stackoverflow" href="{{ profile.social_stackoverflow }}" target="_blank"><i class="fab fa-stack-overflow" style="font-size:20px;"></i></a>
-              </li>
-              <li>
-                <a title="Twitter" href="{{ profile.social_twitter }}" target="_blank"><i class="fab fa-twitter" style="font-size:20px;"></i></a>
-              </li>
-              <li>
-                <a title="LinkedIn" href="{{ profile.social_linkedin }}" target="_blank"><i class="fab fa-linkedin" style="font-size:20px;"></i></a>
-              </li>
-              <li>
-                <a title="Personal Website" href="{{ profile.social_website }}" target="_blank"><i class="fas fa-globe" style="font-size:20px;"></i></a>
-              </li>
+              {% if profile.social_github %}
+                <li>
+                  <a title="Github" href="{{ profile.social_github }}" target="_blank"><i class="fab fa-github" style="font-size:20px;"></i></a>
+                </li>
+              {% endif %}
+              {% if profile.social_stackoverflow %}
+                <li>
+                  <a title="Stackoverflow" href="{{ profile.social_stackoverflow }}" target="_blank"><i class="fab fa-stack-overflow" style="font-size:20px;"></i></a>
+                </li>
+              {% endif %}
+              {% if profile.social_twitter %}
+                <li>
+                  <a title="Twitter" href="{{ profile.social_twitter }}" target="_blank"><i class="fab fa-twitter" style="font-size:20px;"></i></a>
+                </li>
+              {% endif %}
+              {% if profile.social_linkedin %}
+                <li>
+                  <a title="LinkedIn" href="{{ profile.social_linkedin }}" target="_blank"><i class="fab fa-linkedin" style="font-size:20px;"></i></a>
+                </li>
+              {% endif %}
+              {% if profile.social_website %}
+                <li>
+                  <a title="Personal Website" href="{{ profile.social_website }}" target="_blank"><i class="fas fa-globe" style="font-size:20px;"></i></a>
+                </li>
+              {% endif %}
             </ul>
             <a href="#" class="btn btn--sub btn--lg">Send Message </a>
           </div>
