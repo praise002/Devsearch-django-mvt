@@ -4,7 +4,8 @@ from apps.accounts.mixins import LoginRequiredMixin
 from apps.accounts.forms import UserEditForm
 from .forms import SkillForm, ProfileEditForm
 from .models import Skill, Profile
-from django.db.models import Q
+from .utils import developers_search
+
 import sweetify
 
 class AccountView(LoginRequiredMixin, View):
@@ -111,10 +112,12 @@ class SkillDeleteView(LoginRequiredMixin, View):
 
 class ProfileListView(View):
     def get(self, request):
-        profiles = Profile.objects.all()
+        # profiles = Profile.objects.all()
+        profiles, search_query = developers_search(request)
         
         context = {
             'profiles': profiles,
+            'search_query': search_query,
         }
         return render(request, 'common/index.html', context)
      

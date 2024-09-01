@@ -11,7 +11,7 @@
         <div class="card text-center">
           <div class="card__body dev">
             <a class="tag tag--pill tag--main settings__btn" href="{% url "profiles:profile_edit" %}"><i class="fas fa-edit"></i> Edit</a>
-            <img class="avatar avatar--xl dev__avatar" src="{% if profile.user.photo %}{{ profile.user.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" />
+            <img class="avatar avatar--xl dev__avatar" src="{% if profile.photo %}{{ profile.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" />
             <h2 class="dev__name">{{ profile.user.full_name|default:"" }}</h2>
             <p class="dev__title">{{ profile.short_intro|default:"" }}</p>
             <p class="dev__location">{{ profile.location|default:"" }}</p>

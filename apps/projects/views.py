@@ -1,17 +1,23 @@
 import json
+from re import search
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
-from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+
 from apps.accounts.mixins import LoginRequiredMixin
 from .forms import ReviewForm, ProjectForm
 from .models import Project, Tag
+from .utils import projects_search
 import sweetify
 
 class ProjectListView(View):
     def get(self, request):
-        projects = Project.objects.all()
-        context = {'projects': projects}
+        # projects = Project.objects.all()
+        projects, search_query = projects_search(request)
+        context = {
+            'projects': projects,
+            'search_query': search_query,
+            }
         return render(request, 'projects/projects_list.html', context)
 
 class ProjectDetailView(View):

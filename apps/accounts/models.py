@@ -22,7 +22,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
     
-    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -35,13 +34,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
     
-    @property
-    def image_url(self):
-        try:
-            url = self.photo.url
-        except:
-            url = ''
-        return url
     
     def __str__(self):
         return self.full_name

@@ -1,13 +1,12 @@
 
 const tagContainer = document.querySelector('#form__tag');
-console.log(tagContainer);
 
 tagContainer.addEventListener('click', (e) => {
   if (e.target.classList.contains('project-tag')) {
     const tagId = e.target.dataset.tag;
-    console.log('TAG ID', tagId);
+    // console.log('TAG ID', tagId);
     const projectId = e.target.dataset.project;
-    console.log('PROJECT ID', projectId);
+    // console.log('PROJECT ID', projectId);
 
     fetch('http://127.0.0.1:8000/projects/remove_tag/', {
       method: 'DELETE',
@@ -31,6 +30,19 @@ tagContainer.addEventListener('click', (e) => {
   }
 });
 
+// TODO: TRANSFER TOGGLE HERE
 
+function toggle(id) {
+  const truncatedDescription = document.getElementById(`truncated-description-${id}`);
+  const fullDescription = document.getElementById(`full-description-${id}`);
+
+  if (truncatedDescription.style.display === "none") {
+      truncatedDescription.style.display = "inline";
+      fullDescription.style.display = "none";
+  } else {
+      truncatedDescription.style.display = "none";
+      fullDescription.style.display = "inline";
+  }
+}
 
 

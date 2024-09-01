@@ -23,6 +23,7 @@ class Profile(BaseModel):
     short_intro = models.CharField(max_length=200, blank=True, null=True)
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=100, blank=True)
+    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", null=True, blank=True)
     
     # Social Links
     social_github = models.URLField(max_length=200, blank=True)
@@ -36,4 +37,12 @@ class Profile(BaseModel):
     
     def get_absolute_url(self):
         return reverse('profiles:profile_detail', kwargs={'username': self.user.username})
+    
+    @property
+    def image_url(self):
+        try:
+            url = self.photo.url
+        except:
+            url = ''
+        return url
 

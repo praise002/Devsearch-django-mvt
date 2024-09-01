@@ -36,3 +36,6 @@ class ReviewForm(forms.ModelForm):
             field.widget.attrs.update({'class': 'input'})
             
         self.fields['content'].widget.attrs.update({'placeholder': 'Write your comment here...'})
+        
+class SearchForm(forms.Form):
+    query = forms.CharField()

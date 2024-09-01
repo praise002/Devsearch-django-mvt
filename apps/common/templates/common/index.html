@@ -14,15 +14,16 @@
       </div>
 
       <div class="hero-section__search">
-        <form class="form" action="#" method="get">
+        <form id="searchForm" class="form" action="{% url 'profiles:profile_list' %}" method="get">
           <div class="form__field">
             <label for="formInput#search">Search Developers </label>
-            <input class="input input--text" id="formInput#search" type="text" name="text"
-              placeholder="Search by developer name" />
+            <input class="input input--text" id="formInput#search" type="text" name="search_query"
+                value="{{ search_query }}" placeholder="Search by developer name" />
           </div>
 
           <input class="btn btn--sub btn--lg" type="submit" value="Search" />
         </form>
+
       </div>
     </div>
   </section>
@@ -33,9 +34,9 @@
         {% for profile in profiles %}
           <div class="column card">
             <div class="dev">
-              <a href="profile.html" class="card__body">
+              <a href="{{ profile.get_absolute_url }}" class="card__body">
                 <div class="dev__profile">
-                  <img class="avatar avatar--md" src="{% if profile.user.photo %}{{ profile.user.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" alt="A profile Image of {{ profile.user.full_name }}" />
+                  <img class="avatar avatar--md" src="{% if profile.photo %}{{ profile.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" alt="A profile Image of {{ profile.user.full_name }}" />
                   <div class="dev__meta">
                     <h3>{{ profile.user.full_name }}</h3>
                     <h5>{{ profile.short_intro|default:"" }}</h5>

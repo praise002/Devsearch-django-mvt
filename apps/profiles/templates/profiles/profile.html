@@ -9,7 +9,7 @@
       <div class="column column--1of3">
         <div class="card text-center">
           <div class="card__body dev">
-            <img class="avatar avatar--xl" src="{% if profile.user.photo %}{{ profile.user.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" alt="A profile Image of {{ profile.user.full_name }}">
+            <img class="avatar avatar--xl" src="{% if profile.photo %}{{ profile.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" alt="A profile Image of {{ profile.user.full_name }}">
             <h2 class="dev__name">{{ profile.user.full_name }}</h2>
             <p class="dev__title">{{ profile.short_intro|default:"" }}</p>
             <p class="dev__location">{{ profile.location|default:"" }}</p>
@@ -134,18 +134,4 @@
   </div>
 </main>
 
-<script>
-  function toggle(id) {
-    const truncatedDescription = document.getElementById(`truncated-description-${id}`);
-    const fullDescription = document.getElementById(`full-description-${id}`);
-
-    if (truncatedDescription.style.display === "none") {
-        truncatedDescription.style.display = "inline";
-        fullDescription.style.display = "none";
-    } else {
-        truncatedDescription.style.display = "none";
-        fullDescription.style.display = "inline";
-    }
-  }
-</script>
 {% endblock %}
