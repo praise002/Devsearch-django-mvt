@@ -47,7 +47,7 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
 
-    readonly_fields = ("created_at", "updated_at", "username")
+    readonly_fields = ("created_at", "updated_at", "username", "id")
     search_fields = ("first_name", "last_name", "email")
 
 

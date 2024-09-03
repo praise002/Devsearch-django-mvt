@@ -32,6 +32,11 @@ class Profile(BaseModel):
     social_linkedin = models.URLField(max_length=200, blank=True)
     social_website = models.URLField(max_length=200, blank=True)
     
+    # class Meta:
+    #     indexes = [
+    #         models.Index(fields=['short_intro']),
+    #     ]  # TODO: MIGHT REMOVE LATER
+    
     def __str__(self):
         return f"{self.user.full_name}"
     

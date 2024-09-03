@@ -7,16 +7,19 @@ from django.http import JsonResponse
 from apps.accounts.mixins import LoginRequiredMixin
 from .forms import ReviewForm, ProjectForm
 from .models import Project, Tag
-from .utils import projects_search
+from .utils import projects_search, paginate_projects
 import sweetify
 
 class ProjectListView(View):
     def get(self, request):
         # projects = Project.objects.all()
         projects, search_query = projects_search(request)
+        custom_range, projects = paginate_projects(request, projects, 3)
+        
         context = {
             'projects': projects,
             'search_query': search_query,
+            'custom_range': custom_range,
             }
         return render(request, 'projects/projects_list.html', context)
 

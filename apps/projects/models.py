@@ -10,6 +10,11 @@ class Tag(BaseModel):
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['name']),
+        ]
+    
     def __str__(self):
         return self.name
     
@@ -26,6 +31,10 @@ class Project(BaseModel):
     
     class Meta:
         ordering = ['title']
+        indexes = [
+            models.Index(fields=['title', 'description']),
+        ]  #TODO: RETAIN INDEX IN BASE MODEL
+        
         
     def get_absolute_url(self):
         return reverse('projects:project_detail', kwargs={'id': self.id})

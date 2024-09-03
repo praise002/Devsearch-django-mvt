@@ -30,6 +30,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     objects = CustomUserManager()
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['username']),
+        ]
+    
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"

@@ -4,7 +4,7 @@ from apps.accounts.mixins import LoginRequiredMixin
 from apps.accounts.forms import UserEditForm
 from .forms import SkillForm, ProfileEditForm
 from .models import Skill, Profile
-from .utils import developers_search
+from .utils import developers_search, paginate_profiles
 
 import sweetify
 
@@ -114,10 +114,12 @@ class ProfileListView(View):
     def get(self, request):
         # profiles = Profile.objects.all()
         profiles, search_query = developers_search(request)
+        custom_range, profiles = paginate_profiles(request, profiles, 3)
         
         context = {
             'profiles': profiles,
             'search_query': search_query,
+            'custom_range': custom_range,
         }
         return render(request, 'common/index.html', context)
      
