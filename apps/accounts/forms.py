@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import (
     UserCreationForm,
     PasswordResetForm,
-    SetPasswordForm,)
+    SetPasswordForm)
 from django.utils.translation import gettext_lazy as _
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth import password_validation
@@ -60,8 +60,13 @@ class RegistrationForm(UserCreationForm):
 
 class LoginForm(forms.Form):
     email = forms.EmailField(
-        widget=forms.EmailInput(attrs={"placeholder": "Enter your email address...", "class": "input input--text"}),
-    )
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": _("Enter your email address..."),
+                "class": "input input--text"
+            }
+        ),)
+
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "••••••••", "class": "input input--password"}),
     )

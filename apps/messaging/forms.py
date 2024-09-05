@@ -1,5 +1,5 @@
 from django import forms
-from . import Message
+from .models import Message
 
 class MessageForm(forms.ModelForm):
     class Meta:
@@ -11,6 +11,3 @@ class MessageForm(forms.ModelForm):
 
         for _, field in self.fields.items():
             field.widget.attrs.update({'class': 'input'})
-            
-        self.fields['name'].widget.attrs.update({'placeholder': 'Leave blank if logged in'})
-        self.fields['email'].widget.attrs.update({'placeholder': 'Leave blank if logged in'})

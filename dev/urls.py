@@ -18,15 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls.i18n import i18n_patterns
+from django.utils.translation import gettext_lazy as _
 
-urlpatterns = [
+urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls')),
-    path('accounts/', include('apps.accounts.urls', namespace='accounts')),
-    path('profiles/', include('apps.profiles.urls', namespace='profiles')),
-    path('projects/', include('apps.projects.urls', namespace='projects')),
-    path('', include('apps.messaging.urls', namespace='messaging')),
-]
+    path(_('accounts/'), include('apps.accounts.urls', namespace='accounts')),
+    path(_('profiles/'), include('apps.profiles.urls', namespace='profiles')),
+    path(_('projects/'), include('apps.projects.urls', namespace='projects')),
+    path('rosetta/', include('rosetta.urls')),
+    path('', include('apps.messaging.urls', namespace='messages')),
+)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, 

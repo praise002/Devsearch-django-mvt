@@ -25,9 +25,10 @@ class ReviewForm(forms.ModelForm):
         fields = ['value', 'content']
 
         labels = {
-            'value': 'Place your vote',
-            'content': 'Add a comment with your vote'
+            'value': _("Place your vote"),
+            'content': _("Add a comment with your vote"),
         }
+
         
     def __init__(self, *args, **kwargs):
         super(ReviewForm, self).__init__(*args, **kwargs)
@@ -35,7 +36,9 @@ class ReviewForm(forms.ModelForm):
         for _, field in self.fields.items():
             field.widget.attrs.update({'class': 'input'})
             
-        self.fields['content'].widget.attrs.update({'placeholder': 'Write your comment here...'})
+        self.fields['content'].widget.attrs.update({
+            'placeholder': 'Write your comment here...'
+        })
         
 class SearchForm(forms.Form):
     query = forms.CharField()

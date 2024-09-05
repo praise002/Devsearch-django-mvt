@@ -1,14 +1,15 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from .import views
 
 app_name = "accounts"
 
 urlpatterns = [
-    path('register/', views.RegisterView.as_view(), name='register'),
-    path('login/', views.LoginView.as_view(), name='login'),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path(_('register/'), views.RegisterView.as_view(), name='register'),
+    path(_('login/'), views.LoginView.as_view(), name='login'),
+    path(_('logout/'), views.LogoutView.as_view(), name='logout'),
     path('logout-all-devices/', views.LogoutAllDevices.as_view(), name='logout_all_devices'),
     
     # Email verification

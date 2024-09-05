@@ -1,0 +1,520 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-05 16:42+0100\n"
+"PO-Revision-Date: 2024-09-05 16:50+0000\n"
+"Last-Translator: Praise Idowu <admin@gmail.com>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.4.4\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
+
+#: .\apps\accounts\admin.py:13
+msgid "Login Credentials"
+msgstr "Identifiants de connexion"
+
+#: .\apps\accounts\admin.py:14
+msgid "Personal Information"
+msgstr "Informations personnelles"
+
+#: .\apps\accounts\admin.py:16
+msgid "Permissions and Groups"
+msgstr "Autorisations et groupes"
+
+#: .\apps\accounts\admin.py:28
+msgid "Important Dates"
+msgstr "Dates importantes"
+
+#: .\apps\accounts\forms.py:17
+msgid "Password Mismatch."
+msgstr "Mot de passe non correspondant."
+
+#: .\apps\accounts\forms.py:30
+msgid "Email already registered"
+msgstr "Email déjà enregistré"
+
+#: .\apps\accounts\forms.py:65
+#| msgid "Email address"
+msgid "Enter your email address..."
+msgstr "Adresse email"
+
+#: .\apps\accounts\forms.py:76 .\apps\messaging\models.py:13
+msgid "Email"
+msgstr "Email"
+
+#: .\apps\accounts\forms.py:111
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+#: .\apps\accounts\forms.py:119
+msgid "Confirm"
+msgstr "Confirmer"
+
+#: .\apps\accounts\managers.py:9
+msgid "You must submit a first_name and a last_name"
+msgstr "Vous devez fournir un prénom et un nom"
+
+#: .\apps\accounts\managers.py:24
+msgid "Super users must have is_staff set to True"
+msgstr "Les super utilisateurs doivent avoir is_staff défini sur True"
+
+#: .\apps\accounts\managers.py:27
+msgid "Super users must have is_superuser set to True"
+msgstr "Les super utilisateurs doivent avoir is_superuser défini sur True"
+
+#: .\apps\accounts\models.py:13
+msgid "First name"
+msgstr "Prénom"
+
+#: .\apps\accounts\models.py:14
+msgid "Last name"
+msgstr "Nom"
+
+#: .\apps\accounts\models.py:16
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: .\apps\accounts\models.py:18
+msgid "Email address"
+msgstr "Adresse email"
+
+#: .\apps\accounts\urls.py:10
+msgid "register/"
+msgstr "inscription/"
+
+#: .\apps\accounts\urls.py:11
+msgid "login/"
+msgstr "connexion/"
+
+#: .\apps\accounts\urls.py:12
+msgid "logout/"
+msgstr "déconnexion/"
+
+#: .\apps\common\templates\common\base.html:22
+msgid "DevSearch Logo"
+msgstr "Logo DevSearch"
+
+#: .\apps\common\templates\common\base.html:27
+msgid "Menu"
+msgstr "Menu"
+
+#: .\apps\common\templates\common\base.html:32
+#: .\apps\common\templates\common\index.html:5
+msgid "Developers"
+msgstr "Développeurs"
+
+#: .\apps\common\templates\common\base.html:33
+#: .\apps\profiles\templates\profiles\account.html:93
+#: .\apps\profiles\templates\profiles\profile.html:107
+#: .\apps\projects\templates\projects\projects_list.html:14
+msgid "Projects"
+msgstr "Projets"
+
+#: .\apps\common\templates\common\base.html:34
+#: .\apps\messaging\templates\messaging\inbox.html:4
+msgid "Inbox"
+msgstr "Boîte de réception"
+
+#: .\apps\common\templates\common\base.html:35
+msgid "My Account"
+msgstr "Mon Compte"
+
+#: .\apps\common\templates\common\base.html:39
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: .\apps\common\templates\common\base.html:43
+msgid "Login/Sign Up"
+msgstr "Connexion/Inscription"
+
+#: .\apps\common\templates\common\includes\pagination.html:10
+msgid "Prev"
+msgstr "Précédent"
+
+#: .\apps\common\templates\common\includes\pagination.html:37
+msgid "Next"
+msgstr "Suivant"
+
+#: .\apps\common\templates\common\index.html:14
+msgid "CONNECT WITH"
+msgstr "SE CONNECTER AVEC"
+
+#: .\apps\common\templates\common\index.html:14
+msgid "DEVELOPERS"
+msgstr "DÉVELOPPEURS"
+
+#: .\apps\common\templates\common\index.html:15
+msgid "FROM AROUND THE WORLD"
+msgstr "DU MONDE ENTIER"
+
+#: .\apps\common\templates\common\index.html:21
+msgid "Search Developers"
+msgstr "Rechercher des Développeurs"
+
+#: .\apps\common\templates\common\index.html:23
+msgid "Search by developer name"
+msgstr "Rechercher par nom de développeur"
+
+#: .\apps\common\templates\common\index.html:26
+#: .\apps\projects\templates\projects\projects_list.html:25
+msgid "Search"
+msgstr "Rechercher"
+
+#: .\apps\messaging\models.py:12 .\apps\profiles\models.py:9
+#: .\apps\projects\models.py:9
+msgid "Name"
+msgstr "Nom"
+
+#: .\apps\messaging\models.py:14
+msgid "Subject"
+msgstr "Sujet"
+
+#: .\apps\messaging\models.py:15
+msgid "Body"
+msgstr "Contenu"
+
+#: .\apps\messaging\templates\messaging\inbox.html:10
+msgid "New Messages"
+msgstr "Nouveaux messages"
+
+#: .\apps\messaging\templates\messaging\message_detail.html:4
+msgid "Message"
+msgstr "Message"
+
+#: .\apps\messaging\templates\messaging\message_form.html:4
+msgid "Send Message to a Developer"
+msgstr "Envoyer un message à un développeur"
+
+#: .\apps\messaging\templates\messaging\message_form.html:21
+#: .\apps\profiles\templates\profiles\edit.html:32
+#: .\apps\profiles\templates\profiles\skill_form.html:23
+#: .\apps\projects\templates\projects\project_form.html:36
+msgid "Submit"
+msgstr "Soumettre"
+
+#: .\apps\profiles\models.py:10 .\apps\projects\models.py:26
+msgid "Description"
+msgstr "Description"
+
+#: .\apps\profiles\models.py:24
+msgid "Short Intro"
+msgstr "Introduction courte"
+
+#: .\apps\profiles\models.py:25
+msgid "Bio"
+msgstr "Bio"
+
+#: .\apps\profiles\models.py:26
+msgid "Location"
+msgstr "Lieu"
+
+#: .\apps\profiles\models.py:27
+msgid "Photo"
+msgstr "Photo"
+
+#: .\apps\profiles\models.py:30
+msgid "Social Github"
+msgstr "Github social"
+
+#: .\apps\profiles\models.py:31
+msgid "Social Stackoverflow"
+msgstr "Stackoverflow social"
+
+#: .\apps\profiles\models.py:32
+msgid "Social Twitter"
+msgstr "Twitter social"
+
+#: .\apps\profiles\models.py:33
+msgid "Social LinkedIn"
+msgstr "LinkedIn social"
+
+#: .\apps\profiles\models.py:34
+msgid "Social Website"
+msgstr "Site web social"
+
+#: .\apps\profiles\templates\profiles\account.html:5
+#: .\apps\profiles\templates\profiles\profile.html:5
+msgid "Profile"
+msgstr "Profil"
+
+#: .\apps\profiles\templates\profiles\account.html:15
+msgid "A profile photo of "
+msgstr "Une photo de profil de "
+
+#: .\apps\profiles\templates\profiles\account.html:52
+#: .\apps\profiles\templates\profiles\profile.html:53
+msgid "About Me"
+msgstr "À propos de moi"
+
+#: .\apps\profiles\templates\profiles\account.html:59
+#: .\apps\profiles\templates\profiles\profile.html:70
+msgid "Skills"
+msgstr "Compétences"
+
+#: .\apps\profiles\templates\profiles\account.html:60
+msgid "Add Skill"
+msgstr "Ajouter une compétence"
+
+#: .\apps\profiles\templates\profiles\account.html:73
+#: .\apps\profiles\templates\profiles\profile.html:59
+#: .\apps\projects\templates\projects\project_detail.html:43
+msgid "Read more"
+msgstr "Lire la suite"
+
+#: .\apps\profiles\templates\profiles\account.html:79
+#: .\apps\profiles\templates\profiles\profile.html:65
+#: .\apps\projects\templates\projects\project_detail.html:49
+msgid "Read less"
+msgstr "Lire moins"
+
+#: .\apps\profiles\templates\profiles\account.html:84
+#: .\apps\profiles\templates\profiles\account.html:110
+msgid "Edit"
+msgstr "Modifier"
+
+#: .\apps\profiles\templates\profiles\account.html:86
+#: .\apps\profiles\templates\profiles\account.html:112
+msgid "Delete"
+msgstr "Supprimer"
+
+#: .\apps\profiles\templates\profiles\account.html:94
+msgid "Add Project"
+msgstr "Ajouter un projet"
+
+#: .\apps\profiles\templates\profiles\account.html:101
+#| msgid "This is an image showing a"
+msgid "This is an image showing a "
+msgstr "Ceci est une image montrant un(e)"
+
+#: .\apps\profiles\templates\profiles\edit.html:5
+msgid "Edit Profile"
+msgstr "Modifier le profil"
+
+#: .\apps\profiles\templates\profiles\profile.html:14
+msgid "A profile Image of "
+msgstr "Une image de profil de "
+
+#: .\apps\profiles\templates\profiles\profile.html:46
+#| msgid "Send Message to a Developer"
+msgid "Send Message"
+msgstr "Envoyer un message à un développeur"
+
+#: .\apps\profiles\templates\profiles\profile.html:82
+msgid "more"
+msgstr "plus"
+
+#: .\apps\profiles\templates\profiles\profile.html:88
+msgid "less"
+msgstr "moins"
+
+#: .\apps\profiles\templates\profiles\profile.html:95
+msgid "Other Skills"
+msgstr "Autres compétences"
+
+#: .\apps\profiles\templates\profiles\profile.html:116
+msgid "A project thumbnail"
+msgstr "Une vignette de projet"
+
+#: .\apps\profiles\templates\profiles\profile.html:129
+#: .\apps\projects\templates\projects\project_detail.html:61
+#: .\apps\projects\templates\projects\projects_list.html:51
+msgid "Positive Feedback"
+msgstr "Retour positif"
+
+#: .\apps\profiles\templates\profiles\profile.html:130
+msgid ""
+"\n"
+"                          Vote\n"
+"                        "
+msgid_plural ""
+"\n"
+"                          Votes\n"
+"                        "
+msgstr[0] "Vote"
+msgstr[1] "Votes"
+
+#: .\apps\profiles\templates\profiles\skill_form.html:5
+msgid "Add or Edit Skill"
+msgstr "Ajouter ou modifier une compétence"
+
+#: .\apps\projects\forms.py:28
+msgid "Place your vote"
+msgstr "Votez"
+
+#: .\apps\projects\forms.py:29
+msgid "Add a comment with your vote"
+msgstr "Ajoutez un commentaire avec votre vote"
+
+#: .\apps\projects\models.py:23
+msgid "Title"
+msgstr "Titre"
+
+#: .\apps\projects\models.py:25
+msgid "Featured Image"
+msgstr "Image à la une"
+
+#: .\apps\projects\models.py:27
+msgid "Source Code Link"
+msgstr "Lien vers le code source"
+
+#: .\apps\projects\models.py:28
+msgid "Demo Link"
+msgstr "Lien de démonstration"
+
+#: .\apps\projects\models.py:30
+msgid "Vote Total"
+msgstr "Total des votes"
+
+#: .\apps\projects\models.py:31
+msgid "Vote Ratio"
+msgstr "Ratio des votes"
+
+#: .\apps\projects\models.py:77
+msgid "Up Vote"
+msgstr "Vote positif"
+
+#: .\apps\projects\models.py:78
+msgid "Down Vote"
+msgstr "Vote négatif"
+
+#: .\apps\projects\models.py:84
+msgid "Content"
+msgstr "Contenu"
+
+#: .\apps\projects\templates\projects\project_detail.html:5
+msgid "Single Project"
+msgstr "Projet unique"
+
+#: .\apps\projects\templates\projects\project_detail.html:14
+msgid "Tools & Stacks"
+msgstr "Outils et piles"
+
+#: .\apps\projects\templates\projects\project_detail.html:23
+#| msgid "Source Code Link"
+msgid "Source Code"
+msgstr "Lien vers le code source"
+
+#: .\apps\projects\templates\projects\project_detail.html:29
+msgid "Live Demo"
+msgstr "Démo en direct"
+
+#: .\apps\projects\templates\projects\project_detail.html:34
+#: .\apps\projects\templates\projects\projects_list.html:38
+msgid "This is an image showing a"
+msgstr "Ceci est une image montrant un(e)"
+
+#: .\apps\projects\templates\projects\project_detail.html:37
+msgid "About the Project"
+msgstr "À propos du projet"
+
+#: .\apps\projects\templates\projects\project_detail.html:55
+msgid "Feedback"
+msgstr "Retour d'information"
+
+#: .\apps\projects\templates\projects\project_detail.html:63
+msgid ""
+"\n"
+"              Vote\n"
+"            "
+msgid_plural ""
+"\n"
+"              Votes\n"
+"            "
+msgstr[0] "Vote"
+msgstr[1] "Votes"
+
+#: .\apps\projects\templates\projects\project_detail.html:71
+msgid "You have already submitted your review for this project"
+msgstr "Vous avez déjà soumis votre avis pour ce projet"
+
+#: .\apps\projects\templates\projects\project_detail.html:73
+msgid "You cannot review your own work"
+msgstr "Vous ne pouvez pas évaluer votre propre travail"
+
+#: .\apps\projects\templates\projects\project_detail.html:84
+msgid "Add Review"
+msgstr "Ajouter un avis"
+
+#: .\apps\projects\templates\projects\project_detail.html:87
+msgid "Please login to leave a review"
+msgstr "Veuillez vous connecter pour laisser un avis"
+
+#: .\apps\projects\templates\projects\project_detail.html:95
+msgid "A profile photo of the person that wrote a review"
+msgstr "Une photo de profil de la personne qui a écrit un avis"
+
+#: .\apps\projects\templates\projects\project_form.html:6
+msgid "Add or Edit Project"
+msgstr "Ajouter ou modifier un projet"
+
+#: .\apps\projects\templates\projects\project_form.html:31
+msgid "Tags"
+msgstr "Étiquettes"
+
+#: .\apps\projects\templates\projects\project_form.html:34
+msgid "Add tags here...Seperate it with a comma"
+msgstr "Ajoutez des étiquettes ici... Séparez-les par une virgule"
+
+#: .\apps\projects\templates\projects\projects_list.html:5
+msgid "All Projects"
+msgstr "Tous les projets"
+
+#: .\apps\projects\templates\projects\projects_list.html:14
+msgid "Search for"
+msgstr "Rechercher"
+
+#: .\apps\projects\templates\projects\projects_list.html:20
+msgid "Search By Projects"
+msgstr "Rechercher par projets"
+
+#: .\apps\projects\templates\projects\projects_list.html:22
+msgid "Search by Project Title"
+msgstr "Rechercher par titre de projet"
+
+#: .\apps\projects\templates\projects\projects_list.html:43
+#| msgid "Body"
+msgid "By"
+msgstr "Par"
+
+#: .\apps\projects\templates\projects\projects_list.html:52
+msgid ""
+"\n"
+"                      Vote\n"
+"                    "
+msgid_plural ""
+"\n"
+"                      Votes\n"
+"                    "
+msgstr[0] "Vote"
+msgstr[1] "Votes"
+
+#: .\dev\settings\base.py:135
+msgid "English"
+msgstr "Anglais"
+
+#: .\dev\settings\base.py:136
+msgid "French"
+msgstr "Français"
+
+#: .\dev\urls.py:27
+msgid "accounts/"
+msgstr "comptes/"
+
+#: .\dev\urls.py:28
+msgid "profiles/"
+msgstr "profils/"
+
+#: .\dev\urls.py:29
+msgid "projects/"
+msgstr "projets/"

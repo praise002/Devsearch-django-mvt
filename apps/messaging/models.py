@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from apps.profiles.models import Profile
 import uuid
 
@@ -8,10 +9,10 @@ class Message(models.Model):
     )
     sender = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True)
     recipient = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, related_name='messages')
-    name = models.CharField(max_length=200, blank=True) 
-    email = models.EmailField(max_length=200, blank=True)
-    subject = models.CharField(max_length=200)
-    body = models.TextField()
+    name = models.CharField(_("Name"), max_length=200, blank=True) 
+    email = models.EmailField(_("Email"), max_length=200, blank=True)
+    subject = models.CharField(_("Subject"), max_length=200)
+    body = models.TextField(_("Body"))
     is_read = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     

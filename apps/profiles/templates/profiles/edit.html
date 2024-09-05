@@ -1,6 +1,8 @@
 {% extends "common/base.html" %}
 
-{% block title %}Edit Profile{% endblock %}
+{% load i18n %}
+
+{% block title %}{% trans "Edit Profile" %}{% endblock %}
 
 {% block content %}
 <main class="formPage my-xl">
@@ -26,7 +28,7 @@
           </div>
         {% endfor %}
         
-        <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+        <input class="btn btn--sub btn--lg  my-md" type="submit" value="{% trans "Submit" %}" />
       </form>
     </div>
   </div>

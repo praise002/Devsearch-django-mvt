@@ -1,7 +1,8 @@
 {% extends "common/base.html" %}
+{% load i18n %}
 {% load static %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}{% trans "Profile" %}{% endblock %}
 
 {% block content %}
 <main class="settingsPage profile my-md">
@@ -11,7 +12,7 @@
         <div class="card text-center">
           <div class="card__body dev">
             <a class="tag tag--pill tag--main settings__btn" href="{% url "profiles:profile_edit" %}"><i class="fas fa-edit"></i> Edit</a>
-            <img class="avatar avatar--xl dev__avatar" src="{% if profile.photo %}{{ profile.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" />
+            <img class="avatar avatar--xl dev__avatar" src="{% if profile.photo %}{{ profile.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" alt="{% trans "A profile photo of " %}" {{ profile.user.full_name }} />
             <h2 class="dev__name">{{ profile.user.full_name|default:"" }}</h2>
             <p class="dev__title">{{ profile.short_intro|default:"" }}</p>
             <p class="dev__location">{{ profile.location|default:"" }}</p>
@@ -42,21 +43,21 @@
                 </li>
               {% endif %}
             </ul>
-            <a href="#" class="btn btn--sub btn--lg">Send Message </a>
+            
           </div>
         </div>
       </div>
       <div class="column column--2of3">
         <div class="devInfo">
-          <h3 class="devInfo__title">About Me</h3>
+          <h3 class="devInfo__title">{% trans "About Me" %}</h3>
           <p class="devInfo__about">
             {{ profile.bio|truncatewords:40|linebreaks }}
           </p>
           
         </div>
         <div class="settings">
-          <h3 class="settings__title">Skills</h3>
-          <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url "profiles:skill_add" %}"><i class="fas fa-plus"></i> Add Skill</a>
+          <h3 class="settings__title">{% trans "Skills" %}</h3>
+          <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url "profiles:skill_add" %}"><i class="fas fa-plus"></i> {% trans "Add Skill" %}</a>
         </div>
 
         <table class="settings__table">
@@ -69,35 +70,35 @@
                     <span id="truncated-description-{{ skill.id }}">
                       {{ truncated_description }}
                       {% if skill.description != truncated_description %}
-                        <a href="javascript:void(0);" onclick="toggle('{{ skill.id }}')">Read more</a>
+                        <a href="javascript:void(0);" onclick="toggle('{{ skill.id }}')">{% trans "Read more" %}</a>
                       {% endif %}
                     </span>
                   {% endwith %}
                   <span id="full-description-{{ skill.id }}" style="display:none;">
                     {{ skill.description }}
-                    <a href="javascript:void(0);" onclick="toggle('{{ skill.id }}')">Read less</a>
+                    <a href="javascript:void(0);" onclick="toggle('{{ skill.id }}')">{% trans "Read less" %}</a>
                   </span>
                 </p>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="{% url "profiles:skill_edit" id=skill.id %}"><i class="fas fa-edit"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url "profiles:skill_edit" id=skill.id %}"><i class="fas fa-edit"></i> {% trans "Edit" %}</a>
                 <a class="tag tag--pill tag--main settings__btn" href="{% url "profiles:skill_delete" id=skill.id %}"><i class="fas fa-times-circle"></i>
-                  Delete</a>
+                  {% trans "Delete" %}</a>
               </td>
             </tr>
           {% endfor %}
         </table>
 
         <div class="settings">
-          <h3 class="settings__title">Projects</h3>
-          <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url "projects:project_add" %}"><i class="fas fa-plus"></i> Add Project</a>
+          <h3 class="settings__title">{% trans "Projects" %}</h3>
+          <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url "projects:project_add" %}"><i class="fas fa-plus"></i> {% trans "Add Project" %}</a>
         </div>
 
         <table class="settings__table">
           {% for project in profile.projects.all %}
             <tr>
               <td class="settings__thumbnail">
-                <a href="{% url "projects:project_detail" project.id %}"><img src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="This is an image showing a '{{ project.title }}'" /></a>
+                <a href="{% url "projects:project_detail" project.id %}"><img src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="{% trans "This is an image showing a " %} {{ project.title }}" /></a>
               </td>
               <td class="settings__tableInfo">
                 <a href="{% url "projects:project_detail" project.id %}">{{ project.title }}</a>
@@ -106,9 +107,9 @@
                 </p>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="{% url "projects:project_edit" project.id %}"><i class="fas fa-edit"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url "projects:project_edit" project.id %}"><i class="fas fa-edit"></i> {% trans "Edit" %}</a>
                 <a class="tag tag--pill tag--main settings__btn" href="{% url "projects:project_delete" project.id %}"><i class="fas fa-times-circle"></i>
-                  Delete</a>
+                  {% trans "Delete" %}</a>
               </td>
             </tr>
           {% endfor %}

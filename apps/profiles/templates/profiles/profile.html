@@ -1,15 +1,17 @@
 {% extends "common/base.html" %}
+{% load i18n %}
 {% load static %}
 
+{% block title %}{% trans "Profile" %}{% endblock title %}
+
 {% block content %}
-<!-- Main Section -->
 <main class="profile my-md">
   <div class="container">
     <div class="layout">
       <div class="column column--1of3">
         <div class="card text-center">
           <div class="card__body dev">
-            <img class="avatar avatar--xl" src="{% if profile.photo %}{{ profile.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" alt="A profile Image of {{ profile.user.full_name }}">
+            <img class="avatar avatar--xl" src="{% if profile.photo %}{{ profile.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" alt="{% trans "A profile Image of " %} {{ profile.user.full_name }}">
             <h2 class="dev__name">{{ profile.user.full_name }}</h2>
             <p class="dev__title">{{ profile.short_intro|default:"" }}</p>
             <p class="dev__location">{{ profile.location|default:"" }}</p>
@@ -40,53 +42,57 @@
                 </li>
               {% endif %}
             </ul>
-            <a href="#" class="btn btn--sub btn--lg">Send Message </a>
+            {% if request.user.profile.id != profile.id %}
+              <a href="{% url "messages:create_message" profile.id %}" class="btn btn--sub btn--lg">{% trans "Send Message" %} </a>
+            {% endif %}
           </div>
         </div>
       </div>
       <div class="column column--2of3">
         <div class="devInfo">
-          <h3 class="devInfo__title">About Me</h3>
+          <h3 class="devInfo__title">{% trans "About Me" %}</h3>
           <p class="devInfo__about">
             {% with profile.bio|truncatewords:30 as truncated_bio %}
               <span id="truncated-description-profile">
                 {{ truncated_bio|default:"" }}
                 {% if profile.bio != truncated_bio %}
-                  <a href="javascript:void(0);" onclick="toggle('profile')">Read more</a>
+                  <a href="javascript:void(0);" onclick="toggle('profile')">{% trans "Read more" %}</a>
                 {% endif %}
               </span>
             {% endwith %}
             <span id="full-description-profile" style="display:none;">
               {{ profile.bio }}
-              <a href="javascript:void(0);" onclick="toggle('profile')">Read less</a>
+              <a href="javascript:void(0);" onclick="toggle('profile')">{% trans "Read less" %}</a>
             </span>
           </p>
         </div>
         <div class="devInfo">
-          <h3 class="devInfo__title">Skills</h3>
+          <h3 class="devInfo__title">{% trans "Skills" %}</h3>
           <div class="devInfo__skills">
             {% for skill in top_skills %}
               <div class="devSkill">
-                <h4 class="devSkill__title">{{ skill.name }}</h4>
+                <h4 class="devSkill__title">
+                  {{ skill.name }}
+                </h4>
                 <p class="devSkill__info">
                   {% with skill.description|truncatewords:30 as truncated_description %}
                     <span id="truncated-description-{{ skill.id }}">
                       {{ truncated_description }}
                       {% if skill.description != truncated_description %}
-                        <a href="javascript:void(0);" onclick="toggle('{{ skill.id }}')">more</a>
+                        <a href="javascript:void(0);" onclick="toggle('{{ skill.id }}')">{% trans "more" %}</a>
                       {% endif %}
                     </span>
                   {% endwith %}
                   <span id="full-description-{{ skill.id }}" style="display:none;">
                     {{ skill.description }}
-                    <a href="javascript:void(0);" onclick="toggle('{{ skill.id }}')">less</a>
+                    <a href="javascript:void(0);" onclick="toggle('{{ skill.id }}')">{% trans "less" %}</a>
                   </span>
                 </p>
             </div>
             {% endfor %}
             
             {% if other_skills %}
-              <h3 class="devInfo__subtitle">Other Skills</h3>
+              <h3 class="devInfo__subtitle">{% trans "Other Skills" %}</h3>
               <div class="devInfo__otherSkills">
                 {% for skill in other_skills %}
                   <span class="tag tag--pill tag--sub tag--lg">
@@ -98,7 +104,7 @@
           </div>
         </div>
         <div class="devInfo">
-          <h3 class="devInfo__title">Projects</h3>
+          <h3 class="devInfo__title">{% trans "Projects" %}</h3>
           <div class="grid grid--two">
 
             {% for project in profile.projects.all %}
@@ -106,14 +112,25 @@
                 <div class="card project">
                   <a href="{{ project.get_absolute_url }}" class="project">
                     {% comment %} <img class="project__thumbnail" src="{{ project.featured_image_url }}" alt="project thumbnail" /> {% endcomment %}
-                    <img class="project__thumbnail" src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="A project thumbnail" />
+                    <img class="project__thumbnail" src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="{% trans "A project thumbnail" %}" />
                     <div class="card__body">
-                      <h3 class="project__title">{{ project.title }}</h3>
+                      <h3 class="project__title">
+                        {{ project.title }}
+                      </h3>
                       <p><a class="project__author" href="{{ project.profile.get_absolute_url }}">{{ project.owner.user }}</a></p>
-                      <p class="project--rating">
+                      {% comment %} <p class="project--rating">
                         <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> Positive
                         Feedback ({{ project.vote_total }} Vote{{ project.vote_total|pluralize:"s" }})
-                      </p>
+                      </p> {% endcomment %}
+                      <p class="project--rating">
+                        <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> 
+                        {% trans "Positive Feedback" %} ({{ project.vote_total }} 
+                        {% blocktrans count vote_total=project.vote_total %}
+                          Vote
+                        {% plural %}
+                          Votes
+                        {% endblocktrans %})
+                      </p>   
                       <div class="project__tags">
                         {% for tag in project.tags.all %}
                           <span class="tag tag--pill tag--main">

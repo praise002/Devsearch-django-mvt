@@ -1,6 +1,8 @@
 {% extends "common/base.html" %}
 
-{% block title %}Developers{% endblock title %}
+{% load i18n %}
+
+{% block title %}{% trans "Developers" %}{% endblock title %}
 
 {% load static %}
 
@@ -9,19 +11,19 @@
   <section class="hero-section text-center">
     <div class="container container--narrow">
       <div class="hero-section__box">
-        <h2>CONNECT WITH <span>DEVELOPERS</span></h2>
-        <h2>FROM AROUND THE WORLD</h2>
+        <h2>{% trans "CONNECT WITH" %} <span>{% trans "DEVELOPERS" %}</span></h2>
+        <h2>{% trans "FROM AROUND THE WORLD" %}</h2>
       </div>
 
       <div class="hero-section__search">
         <form id="searchForm" class="form" action="{% url 'profiles:profile_list' %}" method="get">
           <div class="form__field">
-            <label for="formInput#search">Search Developers </label>
+            <label for="formInput#search">{% trans "Search Developers" %} </label>
             <input class="input input--text" id="formInput#search" type="text" name="search_query"
-                value="{{ search_query }}" placeholder="Search by developer name" />
+                value="{{ search_query }}" placeholder="{% trans "Search by developer name" %}" />
           </div>
 
-          <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+          <input class="btn btn--sub btn--lg" type="submit" value="{% trans "Search" %}" />
         </form>
 
       </div>
@@ -43,7 +45,7 @@
                   </div>
                 </div>
                 <p class="dev__info">
-                  {{ profile.bio|truncatewords:30|linebreaks }}
+                  <h5>{{ profile.bio|truncatewords:30|linebreaks }}</h5>
                 </p>
                 <div class="dev__skills">
                   {% for skill in profile.skills.all %}

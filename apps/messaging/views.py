@@ -11,6 +11,7 @@ class Inbox(LoginRequiredMixin, View):
         profile = request.user.profile
         message_requests = profile.messages.all()
         unread_count = message_requests.filter(is_read=False).count()
+        print(unread_count)
         context = {
             'message_requests': message_requests,
             'unread_count': unread_count,
@@ -20,27 +21,25 @@ class Inbox(LoginRequiredMixin, View):
 class ViewMessage(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         profile = request.user.profile
-        message = profile.messages.get(id=kwargs('id'))
+        message = get_object_or_404(profile.messages, id=kwargs.get('id'))
         
         if message.is_read == False:
             message.is_read = True
             message.save()
         
         context = {'message': message}
-        return render(request, 'messaging/message_list.html', context)
+        return render(request, 'messaging/message_detail.html', context)
 
 class CreateMessage(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         form = MessageForm()
         context = {
             'form': form,
         }
         return render(request, 'messaging/message_form.html', context)
         
-        
-            
-    def post(self, request):
-        recipient = get_object_or_404(Profile, id=id)
+    def post(self, request, *args, **kwargs):
+        recipient = get_object_or_404(Profile, id=kwargs.get('id'))
         
         try:
             sender = request.user.profile
@@ -54,12 +53,12 @@ class CreateMessage(View):
             message.recipient = recipient
             
             if sender:
-                message.name = sender.full_name
-                message.email = sender.email
+                message.name = sender.user.full_name
+                message.email = sender.user.email
             message.save()
             
             sweetify.toast(request, 'Your message was successfully sent!')
-            return redirect('profiles:profile_detail', username=recipient.username)
+            return redirect(recipient.get_absolute_url())
         
         context = {
             'recipient': recipient,

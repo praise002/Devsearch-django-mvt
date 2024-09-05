@@ -6,5 +6,5 @@ app_name = 'messages'
 urlpatterns = [
     path('inbox/', views.Inbox.as_view(), name='inbox'),
     path('message/<str:id>/', views.ViewMessage.as_view(), name='message'),
-    path('message/create_message/<str:id>/', views.ViewMessage.as_view(), name='create_message'),
+    path('message/create_message/<str:id>/', views.CreateMessage.as_view(), name='create_message'),
 ]
