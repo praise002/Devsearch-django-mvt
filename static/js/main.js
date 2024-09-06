@@ -1,7 +1,7 @@
 
 const tagContainer = document.querySelector('#form__tag');
 
-tagContainer.addEventListener('click', (e) => {
+tagContainer?.addEventListener('click', (e) => {
   if (e.target.classList.contains('project-tag')) {
     const tagId = e.target.dataset.tag;
     // console.log('TAG ID', tagId);
@@ -30,8 +30,6 @@ tagContainer.addEventListener('click', (e) => {
   }
 });
 
-// TODO: TRANSFER TOGGLE HERE
-
 function toggle(id) {
   const truncatedDescription = document.getElementById(`truncated-description-${id}`);
   const fullDescription = document.getElementById(`full-description-${id}`);
@@ -45,4 +43,29 @@ function toggle(id) {
   }
 }
 
+function convertServerTimeToLocalTime() {
+  // Select all elements with the class 'message__date'
+  const messageDateElems = document.querySelectorAll('.message__date');
 
+  messageDateElems.forEach(messageDateElem => {
+    const serverTime = messageDateElem.getAttribute('data-server-time');
+    if (serverTime) {
+      // Convert server time to a Date object
+      const serverDate = new Date(serverTime);
+    
+      // Format the date according to the user's local timezone
+      const localDate = serverDate.toLocaleString([], {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    
+      // Update the message__date element with the local time
+      messageDateElem.textContent = localDate;
+    }
+  });
+}
+
+convertServerTimeToLocalTime();

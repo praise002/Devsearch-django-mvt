@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from apps.accounts.mixins import LoginRequiredMixin
 from apps.accounts.forms import UserEditForm
+from django.core.cache import cache
 from .forms import SkillForm, ProfileEditForm
 from .models import Skill, Profile
 from .utils import developers_search, paginate_profiles
@@ -62,7 +63,11 @@ class SkillCreateView(LoginRequiredMixin, View):
             skill.user = request.user.profile
             skill.save()
             sweetify.toast(request, 'Skill was added successfully!')
-            # return redirect('')
+            
+            # Invalidate the cache for ProfileDetailView 
+            cache.delete(f"profile_detail_{request.user.profile.user.username}")
+            
+            return redirect('profiles:account')
         else:
             sweetify.error(request, 'Error adding skills')
             
@@ -112,8 +117,10 @@ class SkillDeleteView(LoginRequiredMixin, View):
 
 class ProfileListView(View):
     def get(self, request):
-        # profiles = Profile.objects.all()
         profiles, search_query = developers_search(request)
+        
+        profiles = profiles.select_related('user').prefetch_related('skills')
+        
         custom_range, profiles = paginate_profiles(request, profiles, 3)
         
         context = {
@@ -125,7 +132,8 @@ class ProfileListView(View):
      
 class ProfileDetailView(View):
     def get(self, request, *args, **kwargs):
-        profile = Profile.objects.get(user__username=kwargs['username'])
+        # profile = Profile.objects.get(user__username=kwargs['username'])
+        profile = Profile.objects.select_related('user').prefetch_related('skills', 'projects__tags').get(user__username=kwargs['username'])
         top_skills = profile.skills.exclude(description__exact="")
         other_skills = profile.skills.filter(description="")
         

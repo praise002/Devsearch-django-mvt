@@ -31,6 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
     
     class Meta:
+        ordering = ["-created_at"]
         indexes = [
             models.Index(fields=['username']),
         ]

@@ -14,11 +14,13 @@
       {% else %}
         <p>{{ message.name }}</p>
       {% endif %}
-      <p class="message__date">{{ message.created }}</p>
+      <p class="message__date" data-server-time="{{ message.created|date:"c" }}">
+      </p>
       <div class="message__body">
         {{ message.body|linebreaks }}
       </div>
     </div>
   </div>
 </main>
+
 {% endblock content %}

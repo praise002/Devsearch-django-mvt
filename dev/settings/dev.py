@@ -15,3 +15,12 @@ DATABASES = {
         "PORT": config("POSTGRES_PORT"),
     }
 }
+
+# if DEBUG:
+#     hide_toolbar_patterns = ["/media/", "/static/"]
+
+#     DEBUG_TOOLBAR_CONFIG = {
+#         "SHOW_TOOLBAR_CALLBACK": lambda request: not any(
+#             request.path.startswith(p) for p in hide_toolbar_patterns
+#         ),
+#     }

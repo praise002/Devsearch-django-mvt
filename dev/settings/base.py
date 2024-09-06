@@ -52,6 +52,7 @@ THIRD_PARTY_APPS = [
     'debug_toolbar',
     'sweetify',
     'rosetta',
+    'redisboard',
 ]
 
 LOCAL_APPS = [
@@ -198,6 +199,13 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 PASSWORD_RESET_TIMEOUT = 900  # expires in 15 minutes
+
+CACHES = {
+    'default': {
+    'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+    'LOCATION': 'redis://127.0.0.1:6379',
+    }
+}
 
 # JAZZMIN_SETTINGS = {
 #     # title of the window (Will default to current_admin_site.site_title if absent or None)

@@ -17,7 +17,7 @@
             <span class="message__subject">
               {{ message.subject }}
             </span>
-            <span class="message__date">{{ message.created }}</span>
+            <span class="message__date" data-server-time="{{ message.created|date:"c" }}"></span>
           </a>
         </li>
       {% endfor %}

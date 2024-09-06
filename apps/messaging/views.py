@@ -21,7 +21,9 @@ class Inbox(LoginRequiredMixin, View):
 class ViewMessage(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         profile = request.user.profile
-        message = get_object_or_404(profile.messages, id=kwargs.get('id'))
+        # Use select_related to fetch related profile messages in one query
+        message = get_object_or_404(profile.messages.select_related('sender__user', 'recipient'), 
+                                    id=kwargs.get('id'))
         
         if message.is_read == False:
             message.is_read = True

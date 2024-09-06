@@ -1,5 +1,4 @@
 import json
-from re import search
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from django.http import JsonResponse
@@ -12,8 +11,11 @@ import sweetify
 
 class ProjectListView(View):
     def get(self, request):
-        # projects = Project.objects.all()
         projects, search_query = projects_search(request)
+        
+        # Prefetch related data to minimize database queries
+        projects = projects.select_related('owner__user').prefetch_related('tags', 'reviews')
+        
         custom_range, projects = paginate_projects(request, projects, 3)
         
         context = {
@@ -25,7 +27,12 @@ class ProjectListView(View):
 
 class ProjectDetailView(View):
     def get(self, request, *args, **kwargs):
-        project = get_object_or_404(Project, id=kwargs.get('id'))
+        project = get_object_or_404(
+            Project.objects
+            .select_related('owner__user')  # Optimize fetching owner and owner.user
+            .prefetch_related('tags', 'reviews'),  # Optimize fetching tags and reviews 
+            id=kwargs.get('id')
+        )
         form = ReviewForm()
         context = {'project': project, 'form': form}
         return render(request, 'projects/project_detail.html', context)
@@ -33,15 +40,16 @@ class ProjectDetailView(View):
     def post(self, request, *args, **kwargs):
         project = get_object_or_404(Project, id=kwargs.get('id'))
         form = ReviewForm(request.POST)
-        review = form.save(commit=False)
-        review.project = project
-        review.reviewer = request.user.profile
-        review.save()
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.project = project
+            review.reviewer = request.user.profile
+            review.save()
         
-        project.review_percentage # update the percentage count
+            project.review_percentage # update the percentage count
         
-        sweetify.toast(request, 'Your review was successfully submitted!')
-        return redirect(request, pk=project.id)
+            sweetify.toast(request, 'Your review was successfully submitted!')
+        return redirect('projects:project_detail', id=project.id)
 
 class ProjectCreateView(LoginRequiredMixin, View):
     def get(self, request):
