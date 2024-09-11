@@ -74,7 +74,7 @@ class LoginView(LogoutRequiredMixin, View):
                 
             # passes all above test, login user
             login(request, user)
-            return redirect('/')
+            return redirect('projects:projects_list')
         
         context = {"form": form}
         return render(request, "accounts/login.html", context)
@@ -87,6 +87,7 @@ class VerifyEmail(LogoutRequiredMixin, View):
         
         try:
             user_obj = User.objects.get(id=user_id)
+            
         except User.DoesNotExist:
             sweetify.error(self.request, 'You entered an invalid link')
             return redirect(reverse('accounts:login')) 
@@ -94,6 +95,7 @@ class VerifyEmail(LogoutRequiredMixin, View):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(id=uid)
+            
         except Exception:
             user = None
             
@@ -103,7 +105,6 @@ class VerifyEmail(LogoutRequiredMixin, View):
         
         if user:
             if user.id != user_obj.id:
-                print(user.id != user_obj.id)
                 sweetify.error(self.request, 'You entered an invalid link')
                 return redirect(reverse('accounts:login'))
             
@@ -114,7 +115,7 @@ class VerifyEmail(LogoutRequiredMixin, View):
                 request.session["verification_email"] = None
                 SendEmail.welcome(request, user)
                 return redirect(reverse('accounts:login'))
-                
+        
         return render(
             request,
             "accounts/email_verification_failed.html",
@@ -160,7 +161,6 @@ class LogoutView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs): # if it doesnt work change to get
         logout(request)
         return redirect('accounts:login')
-        # return redirect('gallery:home')
 
 class LogoutAllDevices(LoginRequiredMixin, View):
     def post(self, request):

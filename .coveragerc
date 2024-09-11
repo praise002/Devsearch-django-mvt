@@ -1,0 +1,9 @@
+[run]
+source=apps/accounts/
+omit=
+    .vscode
+    .idea
+    devsearch
+    */migrations/*
+    */tests/*
+    */__init__.py

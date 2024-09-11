@@ -2,6 +2,8 @@ import json
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from apps.accounts.mixins import LoginRequiredMixin
 from .forms import ReviewForm, ProjectForm
@@ -117,9 +119,6 @@ class ProjectDeleteView(LoginRequiredMixin, View):
         project = profile.projects.get(id=kwargs.get('id'))
         project.delete()
         return redirect('profiles:account')
-
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 @method_decorator(csrf_exempt, name='dispatch')
 class RemoveTagView(LoginRequiredMixin, View):

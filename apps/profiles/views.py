@@ -39,7 +39,7 @@ class ProfileEditView(LoginRequiredMixin, View):
             user_form.save()
             profile_form.save()
             sweetify.toast(request, 'Profile updated successfully')
-            # return redirect('')
+            return redirect('profiles:account')
         else:
             sweetify.error(request, 'Error updating your profile')
         return render(request,
@@ -63,10 +63,6 @@ class SkillCreateView(LoginRequiredMixin, View):
             skill.user = request.user.profile
             skill.save()
             sweetify.toast(request, 'Skill was added successfully!')
-            
-            # Invalidate the cache for ProfileDetailView 
-            cache.delete(f"profile_detail_{request.user.profile.user.username}")
-            
             return redirect('profiles:account')
         else:
             sweetify.error(request, 'Error adding skills')
@@ -94,6 +90,7 @@ class SkillEditView(LoginRequiredMixin, View):
             skill.user = request.user.profile
             skill.save()
             sweetify.toast(request, 'Skill was updated successfully!')
+            return redirect('profiles:account')
         else:
             sweetify.error(request, 'Error updating skill')
             

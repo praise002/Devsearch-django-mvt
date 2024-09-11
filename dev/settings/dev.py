@@ -16,11 +16,18 @@ DATABASES = {
     }
 }
 
-# if DEBUG:
-#     hide_toolbar_patterns = ["/media/", "/static/"]
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+    }
+}
 
-#     DEBUG_TOOLBAR_CONFIG = {
-#         "SHOW_TOOLBAR_CALLBACK": lambda request: not any(
-#             request.path.startswith(p) for p in hide_toolbar_patterns
-#         ),
-#     }
+if DEBUG:
+    hide_toolbar_patterns = ["/media/", "/static/"]
+
+    DEBUG_TOOLBAR_CONFIG = {
+        "SHOW_TOOLBAR_CALLBACK": lambda request: not any(
+            request.path.startswith(p) for p in hide_toolbar_patterns
+        ),
+    }
