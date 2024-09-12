@@ -9,6 +9,7 @@
 # Tech Stack
 * Django
 * Postgres
+* LLM(LangChain)
 
 # Home Page
 <img src="./images/Devsearch Home.jpg">  

@@ -60,11 +60,11 @@ class LoginView(LogoutRequiredMixin, View):
                                 username=email, 
                                 password=password) # verify the identity of a user
             
+                
             if not user:
-                sweetify.error(self.request, 'Invalid Credentials')
+                sweetify.error(request, 'Invalid Credentials')
                 return redirect('accounts:login')
-            if not user.is_active:
-                sweetify.error(self.request, 'Disabled account')
+            
             if not user.is_email_verified:
                 request.session['verification_email'] = email  # store email in session if user is not verified
                 SendEmail.verification(request, user)
@@ -158,7 +158,7 @@ class CustomPasswordResetCompleteView(LogoutRequiredMixin, PasswordResetComplete
     template_name = "accounts/password_reset_complete.html"
     
 class LogoutView(LoginRequiredMixin, View):
-    def post(self, request, *args, **kwargs): # if it doesnt work change to get
+    def post(self, request, *args, **kwargs): 
         logout(request)
         return redirect('accounts:login')
 
@@ -166,5 +166,5 @@ class LogoutAllDevices(LoginRequiredMixin, View):
     def post(self, request):
         logout(request)
         request.session.flush()  # Clear all session data
-        return redirect('/')  # Redirect to the home page or any other desired page
+        return redirect('accounts:login')  # Redirect to the home page or any other desired page
 
