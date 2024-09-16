@@ -22,3 +22,14 @@ class TestUtil:
         }
         user = User.objects.create_user(**user_dict)
         return user
+    
+    def other_user():
+        user_dict = {
+            "first_name": "Test",
+            "last_name": "Other",
+            "email": "testotheruser@example.com",
+            "is_email_verified": True,
+            "password": "testpassword",
+        }
+        user = User.objects.create_user(**user_dict)
+        return user

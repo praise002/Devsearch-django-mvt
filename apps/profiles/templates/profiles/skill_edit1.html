@@ -92,3 +92,11 @@ class Comment(BaseModel):
     # TODO: Might need to fix ordering if it doesn't affect top-level comments
     def __str__(self):
         return f"Comment by {self.author} on {self.project.title}"
+
+        #TODO: FOLLOW=TRUE
+        # TRANSACTION IN DB
+        # REUSABLE APPS
+        # use DJANGO FAKER to populate the db with management commands
+        # coverage run --source='.' manage.py test myapp
+        # python manage.py test apps.profiles.tests.test_model   
+        # coverage run --source=apps/profiles manage.py test apps/profiles/

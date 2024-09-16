@@ -18,6 +18,7 @@ class UserAdmin(BaseUserAdmin):
                 "fields": (
                     "is_email_verified",
                     "is_active",
+                    "user_active",
                     "is_staff",
                     "is_superuser",
                     "groups",
@@ -42,6 +43,7 @@ class UserAdmin(BaseUserAdmin):
                     "is_staff",
                     "is_superuser",
                     "is_active",
+                    "user_active",
                 ),
             },
         ),

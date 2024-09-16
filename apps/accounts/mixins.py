@@ -1,13 +1,15 @@
 from django.contrib.auth.mixins import AccessMixin
 from django.shortcuts import redirect
 from django.http import JsonResponse
+from django.urls import reverse
 
 class LogoutRequiredMixin(AccessMixin):
     """Verify that the current user is unauthenticated."""
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect("profiles:profile_list")
+            next_url = request.GET.get('next', reverse('projects:projects_list'))
+            return redirect(next_url)
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -20,5 +22,6 @@ class LoginRequiredMixin(AccessMixin):
                 return JsonResponse(
                     {"status": "error", "message": "You must login first!"}
                 )
-            return redirect("accounts:login")
+            next_url = request.GET.get('next', request.get_full_path())
+            return redirect(f"{reverse('accounts:login')}?next={next_url}")
         return super().dispatch(request, *args, **kwargs)

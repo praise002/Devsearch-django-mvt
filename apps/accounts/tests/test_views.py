@@ -33,7 +33,6 @@ class TestAccounts(TestCase):
     login_url = reverse('accounts:login')
     logout_url = reverse('accounts:logout')
     logout_all_url = reverse('accounts:logout_all_devices')
-    # verify_email_url = reverse('accounts:verify_email')
     resend_verification_email_url = reverse('accounts:resend_verification_email')
     
     def setUp(self):
@@ -41,6 +40,7 @@ class TestAccounts(TestCase):
         self.client = Client()
         self.new_user = TestUtil.new_user()
         self.verified_user = TestUtil.verified_user()
+        # self.inactive_user = TestUtil.inactive_user()
         self.valid_data = valid_data
         self.invalid_data = invalid_data
     
@@ -137,7 +137,7 @@ class TestAccounts(TestCase):
         
         self.assertRedirects(
             response,
-            reverse('accounts:login'),
+            self.login_url,
             status_code=302,
             target_status_code=200,
             fetch_redirect_response=True,
@@ -197,7 +197,7 @@ class TestAccounts(TestCase):
         
     def test_login(self):
         # GET #
-        response = self.client.get(reverse('accounts:login'))
+        response = self.client.get(self.login_url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "accounts/login.html")
         self.assertIsInstance(response.context['form'], LoginForm)
@@ -207,7 +207,7 @@ class TestAccounts(TestCase):
 
         # Test for invalid credentials
         response = self.client.post(
-            reverse('accounts:login'),
+            self.login_url,
             {"email": "invalid@email.com", "password": "invalidpassword"},
         )
         
@@ -217,7 +217,7 @@ class TestAccounts(TestCase):
         
         self.assertRedirects(
             response,
-            reverse('accounts:login'),
+            self.login_url,
             status_code=302,
             target_status_code=200,
             fetch_redirect_response=True,
@@ -225,7 +225,7 @@ class TestAccounts(TestCase):
         
          # Test for unverified credentials (email)
         response = self.client.post(
-            reverse('accounts:login'),
+            self.login_url,
             {"email": new_user.email, "password": "testpassword"},
         )
         self.assertTemplateUsed(response, "accounts/email_verification_sent.html")
@@ -234,7 +234,7 @@ class TestAccounts(TestCase):
         new_user.is_email_verified = True
         new_user.save()
         response = self.client.post(
-            reverse('accounts:login'),
+            self.login_url,
             {"email": new_user.email, "password": "testpassword"},
         )
         self.assertRedirects(
@@ -244,6 +244,7 @@ class TestAccounts(TestCase):
             target_status_code=200,
             fetch_redirect_response=True,
         )
+        
 
     def test_logout(self):
         verified_user = self.verified_user
@@ -253,7 +254,7 @@ class TestAccounts(TestCase):
         response = self.client.post(reverse('accounts:logout'))
         self.assertRedirects(
             response,
-            reverse('accounts:login'),
+            self.login_url,
             status_code=302,
             target_status_code=200,
             fetch_redirect_response=True,
@@ -266,7 +267,7 @@ class TestAccounts(TestCase):
         response = self.client.post(reverse('accounts:logout_all_devices'))
         self.assertRedirects(
             response,
-            reverse('accounts:login'),
+            self.login_url,
             status_code=302,
             target_status_code=200,
             fetch_redirect_response=True,

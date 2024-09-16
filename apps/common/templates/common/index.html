@@ -33,31 +33,37 @@
   <section class="devlist">
     <div class="container">
       <div class="grid grid--three">
-        {% for profile in profiles %}
-          <div class="column card">
-            <div class="dev">
-              <a href="{{ profile.get_absolute_url }}" class="card__body">
-                <div class="dev__profile">
-                  <img class="avatar avatar--md" src="{% if profile.photo %}{{ profile.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" alt="A profile Image of {{ profile.user.full_name }}" />
-                  <div class="dev__meta">
-                    <h3>{{ profile.user.full_name }}</h3>
-                    <h5>{{ profile.short_intro|default:"" }}</h5>
+        {% if profiles %}
+          {% for profile in profiles %}
+            <div class="column card">
+              <div class="dev">
+                <a href="{{ profile.get_absolute_url }}" class="card__body">
+                  <div class="dev__profile">
+                    <img class="avatar avatar--md" src="{% if profile.photo %}{{ profile.photo.url }}{% else %}{% static "media/default-image.jpg" %}{% endif %}" alt="A profile Image of {{ profile.user.full_name }}" />
+                    <div class="dev__meta">
+                      <h3>{{ profile.user.full_name }}</h3>
+                      <h5>{{ profile.short_intro|default:"" }}</h5>
+                    </div>
                   </div>
-                </div>
-                <p class="dev__info">
-                  <h5>{{ profile.bio|truncatewords:30|linebreaks }}</h5>
-                </p>
-                <div class="dev__skills">
-                  {% for skill in profile.skills.all %}
-                    <span class="tag tag--pill tag--main">
-                      <small>{{ skill.name }}</small>
-                    </span>
-                  {% endfor %}
-                </div>
-              </a>
+                  <p class="dev__info">
+                    <h5>{{ profile.bio|truncatewords:30|linebreaks }}</h5>
+                  </p>
+                  <div class="dev__skills">
+                    {% for skill in profile.skills.all %}
+                      <span class="tag tag--pill tag--main">
+                        <small>{{ skill.name }}</small>
+                      </span>
+                    {% endfor %}
+                  </div>
+                </a>
+              </div>
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        {% else %}
+          {% if search_query %}
+          <p>{% trans "No results found for" %} "{{ search_query }}"</p>
+          {% endif %}
+        {% endif %}
         
       </div>
     </div>

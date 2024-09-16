@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetConfirmView,
@@ -47,7 +48,8 @@ class RegisterView(LogoutRequiredMixin, View):
 class LoginView(LogoutRequiredMixin, View):
     def get(self, request):
         form = LoginForm()
-        context = {"form": form}
+        next_url = request.GET.get("next", reverse('projects:projects_list'))
+        context = {"form": form, "next": next_url}
         return render(request, "accounts/login.html", context)
     
     def post(self, request):
@@ -65,6 +67,10 @@ class LoginView(LogoutRequiredMixin, View):
                 sweetify.error(request, 'Invalid Credentials')
                 return redirect('accounts:login')
             
+            if not user.user_active:
+                sweetify.error(request, 'Disabled Account')
+                return redirect('accounts:login')
+            
             if not user.is_email_verified:
                 request.session['verification_email'] = email  # store email in session if user is not verified
                 SendEmail.verification(request, user)
@@ -74,7 +80,15 @@ class LoginView(LogoutRequiredMixin, View):
                 
             # passes all above test, login user
             login(request, user)
-            return redirect('projects:projects_list')
+            
+            redirect_url = request.POST.get("next", reverse('projects:projects_list'))
+            print(redirect_url)
+            if (redirect_url and 
+                url_has_allowed_host_and_scheme(redirect_url, allowed_hosts={request.get_host()}) and 
+                redirect_url == reverse('accounts:logout')):
+                redirect_url = reverse('projects:projects_list')
+                
+            return redirect(redirect_url) # http://127.0.0.1:8000/en/profiles/account/
         
         context = {"form": form}
         return render(request, "accounts/login.html", context)
@@ -160,11 +174,16 @@ class CustomPasswordResetCompleteView(LogoutRequiredMixin, PasswordResetComplete
 class LogoutView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs): 
         logout(request)
-        return redirect('accounts:login')
+        next_url = request.GET.get("next")
+        logout_url = reverse('accounts:logout')
+        if next_url and next_url != logout_url:
+            return redirect(f"{logout_url}?next={next_url}")
+        return redirect(reverse('accounts:login'))
 
 class LogoutAllDevices(LoginRequiredMixin, View):
     def post(self, request):
         logout(request)
         request.session.flush()  # Clear all session data
-        return redirect('accounts:login')  # Redirect to the home page or any other desired page
+        return redirect(reverse('accounts:login'))  # Redirect to the home page or any other desired page
 
+#TODO: STUDY THE NEXT MORE

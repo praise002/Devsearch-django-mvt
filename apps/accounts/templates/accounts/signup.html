@@ -30,7 +30,7 @@
                 {{ field.errors }}
                 {{ field }}
             </div>
-            <input type="hidden" name="next" value="{{ next }}">
+            {% comment %} <input type="hidden" name="next" value="{{ next }}"> {% endcomment %}
           {% endfor %}
           
           <div class="auth__actions">
