@@ -87,7 +87,7 @@
           {% endif %}
 
           <div class="commentList">
-            {% for review in project.review.all %}
+            {% for review in project.reviews.all %}
             <div class="comment">
               <a href="{{ review.reviewer.get_absolute_url }}">
                 <img class="avatar avatar--md"

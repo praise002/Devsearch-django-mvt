@@ -6,6 +6,7 @@ class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'created')
     search_fields = ('name',)
     list_filter = ('created',) 
+    list_per_page = 10
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
@@ -14,6 +15,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ('owner', 'tags', 'created', 'updated')  
     readonly_fields = ('vote_total', 'vote_ratio', 'updated')  
     filter_horizontal = ('tags',)  # Display tags in a horizontal filter widget
+    list_per_page = 10
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
@@ -25,4 +27,5 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ('project__title', 'reviewer__user__username', 'value')  
     list_filter = ('value', 'project', 'reviewer') 
     readonly_fields = ('created',)  
+    list_per_page = 10
 

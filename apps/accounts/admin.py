@@ -8,6 +8,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = ("first_name", "last_name", "username", "is_email_verified", "created_at")
     list_filter = list_display
     ordering = ("first_name", "last_name", "email")
+    list_per_page = 10
 
     fieldsets = (
         (_("Login Credentials"), {"fields": ("email", "password")}),

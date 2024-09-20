@@ -1,5 +1,5 @@
 from apps.projects.models import Project
-from apps.profiles.models import Skill, Profile
+from apps.profiles.models import Skill
 from apps.common.utils import TestUtil
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -76,7 +76,6 @@ class ProfileListViewTests(TestCase):
         
         # test for existent
         response = self.client.get(self.profile_list, {'search_query': 'test'})
-        print(response.content)
         
         self.assertEqual(response.context['search_query'], 'test')
         self.assertTemplateUsed(response, 'common/index.html')

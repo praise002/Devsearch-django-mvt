@@ -1,14 +1,16 @@
 import json
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 from apps.accounts.mixins import LoginRequiredMixin
+from apps.accounts.validators import validate_uuid
+
 from .forms import ReviewForm, ProjectForm
 from .models import Project, Tag
-from .utils import projects_search, paginate_projects
+from .utils import projects_search, paginate_projects, process_tags, add_tags_to_project
 import sweetify
 
 class ProjectListView(View):
@@ -18,7 +20,7 @@ class ProjectListView(View):
         # Prefetch related data to minimize database queries
         projects = projects.select_related('owner__user').prefetch_related('tags', 'reviews')
         
-        custom_range, projects = paginate_projects(request, projects, 3)
+        custom_range, projects = paginate_projects(request, projects, 6)
         
         context = {
             'projects': projects,
@@ -29,19 +31,29 @@ class ProjectListView(View):
 
 class ProjectDetailView(View):
     def get(self, request, *args, **kwargs):
+        project_id = kwargs.get('id') #bTODO: CHANGE ALL IDS TO SLUG
+        if not validate_uuid(project_id):
+            raise Http404('Invalid project id')
+        
         project = get_object_or_404(
             Project.objects
             .select_related('owner__user')  # Optimize fetching owner and owner.user
             .prefetch_related('tags', 'reviews'),  # Optimize fetching tags and reviews 
-            id=kwargs.get('id')
+            id=project_id
         )
         form = ReviewForm()
         context = {'project': project, 'form': form}
         return render(request, 'projects/project_detail.html', context)
     
-    def post(self, request, *args, **kwargs):
-        project = get_object_or_404(Project, id=kwargs.get('id'))
+    def post(self, request, *args, **kwargs): #TODO: DO THE SAME FOR PROFILE-DETAIL
+        project_id = kwargs.get('id')
+        if not validate_uuid(project_id):
+            raise Http404('Invalid project id')
+
+        project = get_object_or_404(Project, id=project_id)
+        
         form = ReviewForm(request.POST)
+        
         if form.is_valid():
             review = form.save(commit=False)
             review.project = project
@@ -60,7 +72,9 @@ class ProjectCreateView(LoginRequiredMixin, View):
         return render(request, "projects/project_form.html", context)
     
     def post(self, request):
-        newtags = request.POST.get('newtags').replace(',',  " ").split()
+        newtags = request.POST.get('newtags', "")  
+        tags = process_tags(newtags)
+        
         profile = request.user.profile
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
@@ -68,9 +82,7 @@ class ProjectCreateView(LoginRequiredMixin, View):
             project.owner = profile
             project.save()
             
-            for tag in newtags:
-                tag, _ = Tag.objects.get_or_create(name=tag)
-                project.tags.add(tag)
+            add_tags_to_project(project, tags)
             
             sweetify.toast(request, 'Project added successfully')
             return redirect('profiles:account')
@@ -81,35 +93,50 @@ class ProjectCreateView(LoginRequiredMixin, View):
 class ProjectEditView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         profile = request.user.profile
-        project = profile.projects.get(id=kwargs.get('id'))
+        project_id = kwargs.get('id') #TODO: CHANGE ALL IDS TO SLUG
+        
+        if not validate_uuid(project_id):
+            raise Http404('Invalid project id')
+        
+        project = get_object_or_404(profile.projects, id=project_id)
         form = ProjectForm(instance=project)
         context = {'form': form, 'project': project}
         return render(request, "projects/project_form.html", context)
         
     def post(self, request, *args, **kwargs):
-        newtags = request.POST.get('newtags').replace(',',  " ").split()
+        newtags = request.POST.get('newtags', "")  
+        tags = process_tags(newtags)
         
         profile = request.user.profile
-        project = profile.projects.get(id=kwargs.get('id'))
+        
+        project_id = kwargs.get('id') #TODO: CHANGE ALL IDS TO SLUG
+        
+        if not validate_uuid(project_id):
+            raise Http404('Invalid project id')
+        project = get_object_or_404(profile.projects, id=project_id)
         
         form = ProjectForm(request.POST, request.FILES, instance=project)
         
         if form.is_valid():
             project = form.save()
-            for tag in newtags:
-                tag, _ = Tag.objects.get_or_create(name=tag)
-                project.tags.add(tag)
+            add_tags_to_project(project, tags)
             
             sweetify.toast(request, 'Project updated successfully')
             return redirect('profiles:account')
         
-        context = {'form': form, 'project': project}
+        context = {'form': form, 'project': project, 'newtags': " ".join(newtags)}
         return render(request, "projects/project_form.html", context)
 
 class ProjectDeleteView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         profile = request.user.profile
-        project = profile.projects.get(id=kwargs.get('id'))
+        
+        project_id = kwargs.get('id') #TODO: CHANGE ALL IDS TO SLUG
+        
+        if not validate_uuid(project_id):
+            raise Http404('Invalid project id')
+        
+        project = get_object_or_404(profile.projects, id=project_id)
         
         context = {'object': project}
         return render(request, 'common/delete_template.html', context)

@@ -3,6 +3,9 @@ from django.contrib.postgres.search import SearchVector, \
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 
+from django.db import IntegrityError
+from apps.projects.models import Tag
+
 from .models import Project
 
 def paginate_projects(request, projects, results):
@@ -55,3 +58,22 @@ def projects_search(request):
         
 
     return projects, search_query
+
+
+def process_tags(tags_string):
+    """
+    Process the 'newtags' string to clean and split it into a list of tags.
+    """
+    tags = tags_string.replace(',', " ").split()
+    return tags
+
+def add_tags_to_project(project, tags):
+    """
+    Add tags to the project, creating new tags if necessary.
+    """
+    for tag_name in tags:
+        normalized_tag = tag_name.lower()
+       
+        tag, _ = Tag.objects.get_or_create(name=normalized_tag)
+        project.tags.add(tag)
+        

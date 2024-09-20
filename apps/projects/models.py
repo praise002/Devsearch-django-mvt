@@ -41,7 +41,7 @@ class Project(BaseModel):
     @property
     def featured_image_url(self):
         try:
-            url = self.featured_image
+            url = self.featured_image.url
         except:
             url = ''
         return url

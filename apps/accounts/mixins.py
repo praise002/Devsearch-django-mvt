@@ -8,8 +8,9 @@ class LogoutRequiredMixin(AccessMixin):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            next_url = request.GET.get('next', reverse('projects:projects_list'))
-            return redirect(next_url)
+            # next_url = request.GET.get('next', reverse('projects:projects_list'))
+            return redirect('projects:projects_list')
+            
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -23,5 +24,8 @@ class LoginRequiredMixin(AccessMixin):
                     {"status": "error", "message": "You must login first!"}
                 )
             next_url = request.GET.get('next', request.get_full_path())
-            return redirect(f"{reverse('accounts:login')}?next={next_url}")
+            logout_url = reverse('accounts:logout')
+            if next_url != logout_url:
+                return redirect(f"{reverse('accounts:login')}?next={next_url}")
+
         return super().dispatch(request, *args, **kwargs)

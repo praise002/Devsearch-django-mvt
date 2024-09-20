@@ -11,6 +11,7 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
     PasswordResetDoneView,
 )
+
 from .forms import RegistrationForm
 from .mixins import LoginRequiredMixin, LogoutRequiredMixin
 from .models import User
@@ -82,13 +83,11 @@ class LoginView(LogoutRequiredMixin, View):
             login(request, user)
             
             redirect_url = request.POST.get("next", reverse('projects:projects_list'))
-            print(redirect_url)
-            if (redirect_url and 
-                url_has_allowed_host_and_scheme(redirect_url, allowed_hosts={request.get_host()}) and 
-                redirect_url == reverse('accounts:logout')):
+            if not url_has_allowed_host_and_scheme(redirect_url, allowed_hosts={request.get_host()}):
                 redirect_url = reverse('projects:projects_list')
-                
-            return redirect(redirect_url) # http://127.0.0.1:8000/en/profiles/account/
+
+            return redirect(redirect_url)
+
         
         context = {"form": form}
         return render(request, "accounts/login.html", context)
@@ -174,16 +173,11 @@ class CustomPasswordResetCompleteView(LogoutRequiredMixin, PasswordResetComplete
 class LogoutView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs): 
         logout(request)
-        next_url = request.GET.get("next")
-        logout_url = reverse('accounts:logout')
-        if next_url and next_url != logout_url:
-            return redirect(f"{logout_url}?next={next_url}")
-        return redirect(reverse('accounts:login'))
+        return redirect('accounts:login')
 
 class LogoutAllDevices(LoginRequiredMixin, View):
     def post(self, request):
         logout(request)
         request.session.flush()  # Clear all session data
-        return redirect(reverse('accounts:login'))  # Redirect to the home page or any other desired page
+        return redirect('accounts:login')  # Redirect to the home page or any other desired page
 
-#TODO: STUDY THE NEXT MORE

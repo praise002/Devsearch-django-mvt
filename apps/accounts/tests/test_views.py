@@ -80,6 +80,9 @@ class TestAccounts(TestCase):
             reverse('accounts:verify_email', 
                     kwargs={'uidb64': uidb64, 'token': token, 'user_id': new_user.pk})
         )
+        
+        session_sweetify = json.loads(self.client.session.get('sweetify'))
+        self.assertEqual(session_sweetify.get('title'), "Verification successful!")
 
         self.assertRedirects(
             response,
@@ -169,6 +172,8 @@ class TestAccounts(TestCase):
         response = self.client.get(
             self.resend_verification_email_url,
         )
+        session_sweetify = json.loads(self.client.session.get('sweetify'))
+        self.assertEqual(session_sweetify.get('title'), "Email address already verified!")
         
         self.assertRedirects(
             response,
@@ -186,6 +191,9 @@ class TestAccounts(TestCase):
         response = self.client.get(
             self.resend_verification_email_url,
         )
+        
+        session_sweetify = json.loads(self.client.session.get('sweetify'))
+        self.assertEqual(session_sweetify.get('title'), "Not allowed")
         
         self.assertRedirects(
             response,
@@ -230,7 +238,7 @@ class TestAccounts(TestCase):
         )
         self.assertTemplateUsed(response, "accounts/email_verification_sent.html")
         
-         # Test for valid credentials and verified email address
+        # Test for valid credentials and verified email address
         new_user.is_email_verified = True
         new_user.save()
         response = self.client.post(
@@ -245,7 +253,6 @@ class TestAccounts(TestCase):
             fetch_redirect_response=True,
         )
         
-
     def test_logout(self):
         verified_user = self.verified_user
 

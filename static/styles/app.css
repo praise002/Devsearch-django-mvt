@@ -871,3 +871,27 @@ textarea {
   outline: none;
   border: 2px solid var(--color-main);
 }
+
+/* Align the delete button to the right */
+.delete-container {
+  text-align: right;
+  margin-top: -30px; /* Adjust as needed for positioning */
+}
+
+/* Custom delete button style */
+.btn-delete {
+  color: #dc3545; /* Danger red */
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete i {
+  margin-right: 5px;
+}
+
+/* Hover effect */
+.btn-delete:hover {
+  background-color: #e4606d; /* Darker red */
+}

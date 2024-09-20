@@ -8,6 +8,12 @@
   <div class="content-box">
     <div class="message">
       <a class="backButton" href="{% url "messages:inbox" %}"><i class="fa-solid fa-angle-left"></i></a>
+      <div class="delete-container">
+        <a href="{% url 'messages:delete_message' message.id %}" class="btn-delete">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+      </div> 
+      </span>
       <h2 class="message__subject">{{ message.subject }}</h2>
       {% if message.sender %}
         <a href="{{ message.sender.get_absolute_url }}" class="message__author">{{ message.name|default:message.sender.user.full_name }}</a>

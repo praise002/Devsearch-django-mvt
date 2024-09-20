@@ -8,4 +8,5 @@ urlpatterns = [
     path('inbox/', views.Inbox.as_view(), name='inbox'),
     path('message/<str:id>/', cache_page(60 * 15)(views.ViewMessage.as_view()), name='message'),
     path('message/create_message/<str:id>/', views.CreateMessage.as_view(), name='create_message'),
+    path('message/delete_message/<str:id>/', views.DeleteMessage.as_view(), name='delete_message'),
 ]

@@ -100,3 +100,24 @@ class Comment(BaseModel):
         # coverage run --source='.' manage.py test myapp
         # python manage.py test apps.profiles.tests.test_model   
         # coverage run --source=apps/profiles manage.py test apps/profiles/
+
+
+
+        redirect_url = request.GET.get("next", reverse('projects:projects_list'))
+            
+        # if (redirect_url and 
+        #     url_has_allowed_host_and_scheme(redirect_url, allowed_hosts={request.get_host()}) and 
+        #     redirect_url == reverse('accounts:logout')):
+        #     redirect_url = reverse('projects:projects_list')
+        if not url_has_allowed_host_and_scheme(redirect_url, allowed_hosts={request.get_host()}):
+            redirect_url = reverse('projects:projects_list')
+
+            class LogoutView(LoginRequiredMixin, View):
+            def post(self, request, *args, **kwargs): 
+                logout(request)
+                next_url = request.GET.get("next")
+                logout_url = reverse('accounts:logout')
+                # if next_url and next_url != logout_url:
+                #     return redirect(f"{logout_url}?next={next_url}")
+                # return redirect(reverse('accounts:login'))
+                return redirect('accounts:login')

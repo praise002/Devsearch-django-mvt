@@ -27,7 +27,7 @@ class ProfileListView(View):
         
         profiles = profiles.select_related('user').prefetch_related('skills')
         
-        custom_range, profiles = paginate_profiles(request, profiles, 3)
+        custom_range, profiles = paginate_profiles(request, profiles, 6)
         
         context = {
             'profiles': profiles,
