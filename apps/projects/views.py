@@ -1,12 +1,13 @@
 import json
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 from apps.accounts.mixins import LoginRequiredMixin
 from apps.accounts.validators import validate_uuid
+
 
 from .forms import ReviewForm, ProjectForm
 from .models import Project, Tag
@@ -31,26 +32,22 @@ class ProjectListView(View):
 
 class ProjectDetailView(View):
     def get(self, request, *args, **kwargs):
-        project_id = kwargs.get('id') #bTODO: CHANGE ALL IDS TO SLUG
-        if not validate_uuid(project_id):
-            raise Http404('Invalid project id')
+        project_slug = kwargs.get('slug') 
         
         project = get_object_or_404(
             Project.objects
             .select_related('owner__user')  # Optimize fetching owner and owner.user
             .prefetch_related('tags', 'reviews'),  # Optimize fetching tags and reviews 
-            id=project_id
+            slug=project_slug
         )
         form = ReviewForm()
         context = {'project': project, 'form': form}
         return render(request, 'projects/project_detail.html', context)
     
-    def post(self, request, *args, **kwargs): #TODO: DO THE SAME FOR PROFILE-DETAIL
-        project_id = kwargs.get('id')
-        if not validate_uuid(project_id):
-            raise Http404('Invalid project id')
+    def post(self, request, *args, **kwargs): 
+        project_slug = kwargs.get('slug') 
 
-        project = get_object_or_404(Project, id=project_id)
+        project = get_object_or_404(Project, slug=project_slug)
         
         form = ReviewForm(request.POST)
         
@@ -63,7 +60,7 @@ class ProjectDetailView(View):
             project.review_percentage # update the percentage count
         
             sweetify.toast(request, 'Your review was successfully submitted!')
-        return redirect('projects:project_detail', id=project.id)
+        return redirect('projects:project_detail', slug=project.slug)
 
 class ProjectCreateView(LoginRequiredMixin, View):
     def get(self, request):
@@ -93,12 +90,10 @@ class ProjectCreateView(LoginRequiredMixin, View):
 class ProjectEditView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         profile = request.user.profile
-        project_id = kwargs.get('id') #TODO: CHANGE ALL IDS TO SLUG
+        project_slug = kwargs.get('slug') 
         
-        if not validate_uuid(project_id):
-            raise Http404('Invalid project id')
         
-        project = get_object_or_404(profile.projects, id=project_id)
+        project = get_object_or_404(profile.projects, slug=project_slug)
         form = ProjectForm(instance=project)
         context = {'form': form, 'project': project}
         return render(request, "projects/project_form.html", context)
@@ -109,11 +104,9 @@ class ProjectEditView(LoginRequiredMixin, View):
         
         profile = request.user.profile
         
-        project_id = kwargs.get('id') #TODO: CHANGE ALL IDS TO SLUG
+        project_slug = kwargs.get('slug')
         
-        if not validate_uuid(project_id):
-            raise Http404('Invalid project id')
-        project = get_object_or_404(profile.projects, id=project_id)
+        project = get_object_or_404(profile.projects, slug=project_slug)
         
         form = ProjectForm(request.POST, request.FILES, instance=project)
         
@@ -131,19 +124,17 @@ class ProjectDeleteView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         profile = request.user.profile
         
-        project_id = kwargs.get('id') #TODO: CHANGE ALL IDS TO SLUG
+        project_slug = kwargs.get('slug')
         
-        if not validate_uuid(project_id):
-            raise Http404('Invalid project id')
-        
-        project = get_object_or_404(profile.projects, id=project_id)
+        project = get_object_or_404(profile.projects, slug=project_slug)
         
         context = {'object': project}
         return render(request, 'common/delete_template.html', context)
     
     def post(self, request, *args, **kwargs):
         profile = request.user.profile
-        project = profile.projects.get(id=kwargs.get('id'))
+        project_slug = kwargs.get('slug')
+        project = profile.projects.get(slug=project_slug)
         project.delete()
         return redirect('profiles:account')
 
@@ -152,10 +143,10 @@ class RemoveTagView(LoginRequiredMixin, View):
     def delete(self, request, *args, **kwargs):
         data = json.loads(request.body)
         tag_id = data.get('tag_id')
-        project_id = data.get('project_id')
+        project_slug = data.get('project_slug')
 
         try:
-            project = Project.objects.get(id=project_id)
+            project = Project.objects.get(slug=project_slug)
             tag = Tag.objects.get(id=tag_id)
             project.tags.remove(tag)
             return JsonResponse({'success': True})

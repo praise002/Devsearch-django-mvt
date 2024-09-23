@@ -10,16 +10,24 @@
 * Django
 * Postgres
 * LLM(LangChain)
+* Docker
 
 # Home Page
-<img src="./images/Devsearch Home.jpg">  
+<img src="./static/images/Devsearch Home.jpg">  
 
 # Projects Page
-<img src="./images/DevSearch Projects.jpg">  
+<img src="./static/images/DevSearch Projects.jpg">  
 
 # Profile Page
-<img src="./images/Devsearch Profile.jpg">  
+<img src="./static/images/Devsearch Profile.jpg">  
 
 # User Inbox
-<img src="./images/Devsearch Inbox.jpg">  
+<img src="./static/images/Devsearch Inbox.jpg">  
+
+# Admin login
+<img src="./static/images/devsearch-admin-login.png">  
+
+# Admin dashboard
+<img src="./static/images/devsearch-admin-dashboard-1.png">  
+<img src="./static/images/devsearch-admin-dashboard-2.png">  
 

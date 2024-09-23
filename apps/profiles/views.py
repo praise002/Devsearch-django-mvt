@@ -1,8 +1,10 @@
-from audioop import reverse
+
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from apps.accounts.mixins import LoginRequiredMixin
 from apps.accounts.forms import UserEditForm
+from apps.accounts.validators import validate_uuid
 from django.core.cache import cache
 from .forms import SkillForm, ProfileEditForm
 from .models import Skill, Profile
@@ -38,17 +40,24 @@ class ProfileListView(View):
      
 class ProfileDetailView(View):
     def get(self, request, *args, **kwargs):
-        # profile = Profile.objects.get(user__username=kwargs['username'])
-        profile = Profile.objects.select_related('user').prefetch_related('skills', 'projects__tags').get(user__username=kwargs['username'])
-        top_skills = profile.skills.exclude(description__exact="")
-        other_skills = profile.skills.filter(description="")
+        username = kwargs['username']
         
-        context = {
-            'profile': profile,
-            'top_skills': top_skills,
-            'other_skills': other_skills,
-        }
-        return render(request, 'profiles/profile.html', context)
+        try:
+            # profile = Profile.objects.get(user__username=kwargs['username'])
+            profile = Profile.objects.select_related('user').prefetch_related('skills', 'projects__tags').get(user__username=username)
+            
+            top_skills = profile.skills.exclude(description__exact="")
+            other_skills = profile.skills.filter(description="")
+            
+            context = {
+                'profile': profile,
+                'top_skills': top_skills,
+                'other_skills': other_skills,
+            }
+            return render(request, 'profiles/profile.html', context)
+        except Profile.DoesNotExist:
+            raise Http404("Profile not found.")
+        
 
 class ProfileEditView(LoginRequiredMixin, View):
     def get(self, request):
@@ -85,11 +94,19 @@ class SkillCreateView(LoginRequiredMixin, View):
                       context)
         
     def post(self, request, *args, **kwargs):
-        form = SkillForm(request.POST)
+        form = SkillForm(request.POST) 
             
         if form.is_valid():
+            skill_name = form.cleaned_data['name']
+            profile = request.user.profile
+            
+            # Check if the skill already exists for the user
+            if Skill.objects.filter(user=profile, name=skill_name).exists():
+                form.add_error('name', 'You already have this skill added.')
+                return render(request, 'profiles/skill_form.html', {'form': form})
+            
             skill = form.save(commit=False)
-            skill.user = request.user.profile
+            skill.user = profile
             skill.save()
             sweetify.toast(request, 'Skill was added successfully!')
             return redirect('profiles:account')
@@ -100,7 +117,11 @@ class SkillCreateView(LoginRequiredMixin, View):
 
 class SkillEditView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        skill = get_object_or_404(Skill, id=kwargs.get('id'), user=request.user.profile)
+        skill_id = kwargs.get('id')
+        if not validate_uuid(skill_id):
+            raise Http404('Invalid skill id')
+        
+        skill = get_object_or_404(Skill, id=skill_id, user=request.user.profile)
         form = SkillForm(instance=skill)
         context = {'form': form}
         return render(request,
@@ -108,13 +129,26 @@ class SkillEditView(LoginRequiredMixin, View):
                       context)
     
     def post(self, request, *args, **kwargs):
+        skill_id = kwargs.get('id')
+        if not validate_uuid(skill_id):
+            raise Http404('Invalid skill id')
+        
         profile = request.user.profile
-        skill = get_object_or_404(profile.skills, id=kwargs.get('id'))
+        skill = get_object_or_404(profile.skills, id=skill_id)
         form = SkillForm(request.POST, instance=skill)
         
         if form.is_valid():
+            new_skill_name = form.cleaned_data['name']
+            
+            # Check if another skill with the same name exists for the user
+            if Skill.objects.filter(user=profile).\
+                exclude(id=skill.id).\
+                filter(name=new_skill_name).exists():
+                form.add_error('name', 'You already have this skill added.')
+                return render(request, 'profiles/skill_form.html', {'form': form})
+                
             skill = form.save(commit=False)
-            skill.user = request.user.profile
+            skill.user = profile
             skill.save()
             sweetify.toast(request, 'Skill was updated successfully!')
             return redirect('profiles:account')
@@ -126,13 +160,21 @@ class SkillEditView(LoginRequiredMixin, View):
         
 class SkillDeleteView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
+        skill_id = kwargs.get('id')
+        if not validate_uuid(skill_id):
+            raise Http404('Invalid skill id')
+        
         profile = request.user.profile
-        skill = get_object_or_404(profile.skills, id=kwargs.get('id'))
+        skill = get_object_or_404(profile.skills, id=skill_id)
         context = {'object': skill}
         return render(request, 'common/delete_template.html', context)
     
     def post(self, request, *args, **kwargs):
-        skill = get_object_or_404(Skill, id=kwargs.get('id'), user=request.user.profile)
+        skill_id = kwargs.get('id')
+        if not validate_uuid(skill_id):
+            raise Http404('Invalid skill id')
+        
+        skill = get_object_or_404(Skill, id=skill_id, user=request.user.profile)
         skill.delete()
         sweetify.toast(request, 'Skill was deleted successfully')
         return redirect('profiles:account')

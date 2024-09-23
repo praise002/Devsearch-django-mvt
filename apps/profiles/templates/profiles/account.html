@@ -98,17 +98,17 @@
           {% for project in profile.projects.all %}
             <tr>
               <td class="settings__thumbnail">
-                <a href="{% url "projects:project_detail" project.id %}"><img src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="{% trans "This is an image showing a " %} {{ project.title }}" /></a>
+                <a href="{{ project.get_absolute_url }}"><img src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="{% trans "This is an image showing a " %} {{ project.title }}" /></a>
               </td>
               <td class="settings__tableInfo">
-                <a href="{% url "projects:project_detail" project.id %}">{{ project.title }}</a>
+                <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
                 <p>
                   {{ project.description|truncatewords:20 }}
                 </p>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="{% url "projects:project_edit" project.id %}"><i class="fas fa-edit"></i> {% trans "Edit" %}</a>
-                <a class="tag tag--pill tag--main settings__btn" href="{% url "projects:project_delete" project.id %}"><i class="fas fa-times-circle"></i>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url "projects:project_edit" project.slug %}"><i class="fas fa-edit"></i> {% trans "Edit" %}</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url "projects:project_delete" project.slug %}"><i class="fas fa-times-circle"></i>
                   {% trans "Delete" %}</a>
               </td>
             </tr>

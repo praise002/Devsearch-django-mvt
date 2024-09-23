@@ -895,3 +895,75 @@ textarea {
 .btn-delete:hover {
   background-color: #e4606d; /* Darker red */
 }
+
+ul.errorlist {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+  color: red; /* Change the text color to red */
+}
+
+ul.errorlist li {
+  margin-bottom: 0.5em; /* Add spacing between error messages */
+  background-color: #fdd; /* Optional: light red background for visibility */
+  border: 1px solid red; /* Optional: border around each error */
+  padding: 5px; /* Optional: padding inside each error */
+}
+
+/* Skeleton Loader Styles */
+.skeleton-loader {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  padding: 15px;
+  width: 100%;
+}
+
+.skeleton {
+  background-color: #ddd;
+  border-radius: 4px;
+  animation: loading 1.2s infinite;
+}
+
+.skeleton-img {
+  height: 180px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.skeleton-text {
+  height: 20px;
+  width: 60%;
+}
+
+.skeleton-author {
+  height: 15px;
+  width: 40%;
+}
+
+.skeleton-tags {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.skeleton-tag {
+  height: 20px;
+  width: 30px;
+  border-radius: 15px;
+}
+
+/* Skeleton animation */
+@keyframes loading {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #f0f0f0;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+}

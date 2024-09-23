@@ -5,15 +5,15 @@ tagContainer?.addEventListener('click', (e) => {
   if (e.target.classList.contains('project-tag')) {
     const tagId = e.target.dataset.tag;
     // console.log('TAG ID', tagId);
-    const projectId = e.target.dataset.project;
+    const projectSlug = e.target.dataset.project;
     // console.log('PROJECT ID', projectId);
 
-    fetch('http://127.0.0.1:8000/projects/remove_tag/', {
+    fetch('http://127.0.0.1:8000/projects/remove-tag/', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({'project_id': projectId, 'tag_id': tagId}) // serialized into a JSON string
+      body: JSON.stringify({'project_slug': projectSlug, 'tag_id': tagId}) // serialized into a JSON string
     })
     .then(response => {
       if (!response.ok) {

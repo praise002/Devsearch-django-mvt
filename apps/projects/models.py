@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from apps.common.models import BaseModel
 from apps.profiles.models import Profile
+from autoslug import AutoSlugField
 
 class Tag(BaseModel):
     name = models.CharField(_("Name"), max_length=50, blank=True)
@@ -18,6 +19,9 @@ class Tag(BaseModel):
     
 class Project(BaseModel):
     title = models.CharField(_("Title"), max_length=255)
+    slug = AutoSlugField(
+        populate_from='title', always_update=True, unique=True
+    ) 
     owner = models.ForeignKey(Profile, related_name='projects', on_delete=models.CASCADE)
     featured_image = models.ImageField(_("Featured Image"), upload_to='featured_image/', blank=True)
     description = models.TextField(_("Description"))
@@ -36,7 +40,7 @@ class Project(BaseModel):
         ]  
         
     def get_absolute_url(self):
-        return reverse('projects:project_detail', kwargs={'id': self.id})
+        return reverse('projects:project_detail', kwargs={'slug': self.slug})
         
     @property
     def featured_image_url(self):

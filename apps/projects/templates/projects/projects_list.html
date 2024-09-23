@@ -31,42 +31,44 @@
   <section class="projectsList">
     <div class="container">
       <div class="grid grid--three">
-        {% for project in projects %}
-          <div class="column">
-            <div class="card project">
-              <a href="{% url "projects:project_detail" id=project.id %}" class="project">
-                <img class="project__thumbnail" src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="{% trans "This is an image showing a" %} '{{ project.title }}'" />
-                <div class="card__body">
-                  <h3 class="project__title">
-                    {{ project.title }}
-                  </h3>
-                  <p><a class="project__author" href="{{ project.owner.get_absolute_url }}">{% trans "By" %} {{ project.owner.user.full_name }}</a></p>
-                  {% comment %} <p class="project--rating">
-                    <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> Positive
-                    Feedback ({{ project.vote_total }} Vote{{ project.vote_total|pluralize:"s" }})
-                  </p> {% endcomment %}
-                  <p class="project--rating">
-                    <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> 
-                    {% trans "Positive Feedback" %} ({{ project.vote_total }} 
-                    {% blocktrans count vote_total=project.vote_total %}
-                      Vote
-                    {% plural %}
-                      Votes
-                    {% endblocktrans %})
-                  </p>   
-                  <div class="project__tags">
-                    {% for tag in project.tags.all %}
-                      <span class="tag tag--pill tag--main">
-                        <small>{{ tag.name }}</small>
-                      </span>
-                    {% endfor %}
+        {% if projects %}
+          {% for project in projects %}
+            <div class="column">
+              <div class="card project">
+                <a href="{{ project.get_absolute_url }}" class="project">
+                  <img class="project__thumbnail" src="{% if project.featured_image %}{{ project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="{% trans "This is an image showing a" %} '{{ project.title }}'" />
+                  <div class="card__body">
+                    <h3 class="project__title">
+                      {{ project.title }}
+                    </h3>
+                    <p><a class="project__author" href="{{ project.owner.get_absolute_url }}">{% trans "By" %} {{ project.owner.user.full_name }}</a></p>
+                    {% comment %} <p class="project--rating">
+                      <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> Positive
+                      Feedback ({{ project.vote_total }} Vote{{ project.vote_total|pluralize:"s" }})
+                    </p> {% endcomment %}
+                    <p class="project--rating">
+                      <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> 
+                      {% trans "Positive Feedback" %} ({{ project.vote_total }} 
+                      {% blocktrans count vote_total=project.vote_total %}
+                        Vote
+                      {% plural %}
+                        Votes
+                      {% endblocktrans %})
+                    </p>   
+                    <div class="project__tags">
+                      {% for tag in project.tags.all %}
+                        <span class="tag tag--pill tag--main">
+                          <small>{{ tag.name }}</small>
+                        </span>
+                      {% endfor %}
+                    </div>
                   </div>
-                </div>
-              </a>
+                </a>
+              </div>
             </div>
-          </div>
-        {% endfor %}
-
+          {% endfor %}
+        
+        {% endif %}
         
       </div>
     </div>

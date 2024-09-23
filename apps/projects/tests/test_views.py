@@ -61,7 +61,7 @@ class ProjectDetailViewTest(TestCase):
         )
         self.project.tags.add(self.tag)
         
-        self.project_detail = reverse('projects:project_detail', args=[self.project.id])
+        self.project_detail = reverse('projects:project_detail', args=[self.project.slug])
         
     def test_project_detail(self):
         # GET
@@ -73,7 +73,7 @@ class ProjectDetailViewTest(TestCase):
         self.assertIsInstance(response.context['form'], ReviewForm)
         
         # Test GET request for a non-existent project
-        non_existent_url = reverse('projects:project_detail', kwargs={'id': '1aed656f-0ecc-482d-9582-5fa242965f93'})
+        non_existent_url = reverse('projects:project_detail', kwargs={'slug': 'non-existent-slug'})
         response = self.client.get(non_existent_url)
         self.assertEqual(response.status_code, 404)
         
@@ -184,7 +184,7 @@ class ProjectEditViewTests(TestCase):
         )
         self.project.tags.add(self.tag)
         
-        self.project_edit = reverse('projects:project_edit', args=[self.project.id])
+        self.project_edit = reverse('projects:project_edit', args=[self.project.slug])
         
     
     def test_project(self):
@@ -238,7 +238,7 @@ class ProjectDeleteViewTests(TestCase):
             description="A sample project description",
         )
         
-        self.delete_url = reverse('projects:project_delete', args=[self.project.id])
+        self.delete_url = reverse('projects:project_delete', args=[self.project.slug])
         
         # log in user
         self.client.post(
@@ -264,7 +264,7 @@ class ProjectDeleteViewTests(TestCase):
             description="A sample project description",
         )
         
-        other_url = reverse('profiles:skill_delete', args=[other_project.id])
+        other_url = reverse('profiles:skill_delete', args=[other_project.slug])
         
         response = self.client.get(other_url)
         
