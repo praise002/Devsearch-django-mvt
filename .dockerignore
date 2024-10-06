@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+*.pyo
+.git
+env
+.venv
+.coverage
+.coveragerc
+.idea
+README.md
+.gitignore
+htmlconv
+devsearch
+fixtures
+.vscode
+commands.txt

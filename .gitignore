@@ -163,3 +163,6 @@ DevSearch-Theme
 devsearch/
 .idea
 .vscode
+commands.txt
+staticfiles
+data
