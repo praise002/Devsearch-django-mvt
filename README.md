@@ -19,6 +19,7 @@
 ```
 
 #### In the root directory:
+- Create and activate a virtual environment
 - Install all dependencies
 ```bash
     $ pip install -r requirements.txt
@@ -35,7 +36,7 @@
 
 - Run With Docker
 ```bash
-    $ docker-compose up --build 
+    $ docker-compose up  
 ```
 ```bash
     $ docker compose exec web python manage.py migrate
