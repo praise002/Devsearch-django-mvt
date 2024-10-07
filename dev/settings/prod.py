@@ -6,7 +6,7 @@ ADMINS = [
     ('Praise Idowu', 'ifeoluwapraise02@gmail.com'),
 ]
 
-# ALLOWED_HOSTS = ['.vercel.app'] 
+# ALLOWED_HOSTS = ['.vercel.app', '.now.sh'] 
 ALLOWED_HOSTS = ['*'] 
 
 DATABASES = {
