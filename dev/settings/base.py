@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from celery.schedules import crontab
 from pathlib import Path
 from decouple import config
 from django.utils.translation import gettext_lazy as _
@@ -175,8 +176,8 @@ STORAGES = {
         'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage'
     },
     "staticfiles": {
-        # "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        # "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 
@@ -321,4 +322,11 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
         'LOCATION': 'redis://127.0.0.1:6379',
     }
+}
+
+CELERY_BEAT_SCHEDULE = {
+    'send-reminder-emails-every-day': {
+        'task': 'apps.accounts.tasks.send_reminder_emails',
+        'schedule': crontab(hour=0, minute=0), # Every day at midnight
+    },
 }
