@@ -166,3 +166,6 @@ devsearch/
 commands.txt
 staticfiles
 data
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir

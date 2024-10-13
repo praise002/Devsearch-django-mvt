@@ -105,8 +105,40 @@
         </div>
       </div>
     </div>
+
+  <!-- Related Projects Section -->
+  <section class="projectsList">
+    {% if related_projects %}
+      <h3>{% trans "You May Also Like" %}</h3>
+      <div class="grid grid--three">
+        {% for related_project in related_projects %}
+          <div class="card" style="width: 300px; margin-right: 9px;">  
+            <a href="{{ related_project.get_absolute_url }}" class="project">
+              <img class="project__thumbnail" src="{% if related_project.featured_image %}{{ related_project.featured_image }}{% else %}{% static "media/no_image.png" %}{% endif %}" alt="{% trans "This is an image showing a" %} '{{ related_project.title }}'" />
+              <div class="card__body">
+                <h3 class="project__title">{{ related_project.title }}</h3>
+                <p>
+                  <a class="project__author" href="{{ related_project.owner.get_absolute_url }}">{% trans "By" %} {{ related_project.owner.user.full_name }}</a>
+                </p>
+                <p class="project--rating">
+                  <span style="font-weight: bold;">{{ related_project.vote_ratio }}%</span> 
+                  {% trans "Positive Feedback" %} ({{ related_project.vote_total }} 
+                  {% blocktrans count vote_total=related_project.vote_total %}Vote{% plural %}Votes{% endblocktrans %})
+                </p>
+                <div class="project__tags">
+                  {% for tag in related_project.tags.all %}
+                    <span class="tag tag--pill tag--main"><small>{{ tag.name }}</small></span>
+                  {% endfor %}
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    </section> 
   </div>
-  </div>
+
 </main>
 
 {% endblock %}

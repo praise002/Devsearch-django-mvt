@@ -37,6 +37,40 @@ services:
       - db
       - cache
 
-  
+  celery:
+    build: .
+    command: ["celery", "-A", "dev", "worker", "--loglevel=info"]
+    restart: always
+    volumes: 
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=dev.settings.prod
+    depends_on:
+      - db
+      - cache
+
+  celery-beat:
+    build: .
+    command: ["celery", "-A", "dev", "beat", "--loglevel=info"]
+    restart: always
+    volumes: 
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=dev.settings.prod
+    depends_on:
+      - db
+      - cache
+
+  flower:
+    build: .
+    command: ["celery", "-A", "dev", "flower", "--port=5555"]
+    restart: always
+    ports:
+      - "5555:5555"
+    environment:
+      - DJANGO_SETTINGS_MODULE=dev.settings.prod
+    depends_on:
+      - db
+      - cache
   
     

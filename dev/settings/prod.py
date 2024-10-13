@@ -20,8 +20,11 @@ DATABASES = {
     }
 }
 
-REDIS_URL = 'redis://cache:6379'
+REDIS_URL = 'redis://cache:6379/0'
 CACHES['default']['LOCATION'] = REDIS_URL
+
+# CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_BROKER_URL = 'redis://cache:6379/1'
 
 # STORAGES = {
 #     "staticfiles": {

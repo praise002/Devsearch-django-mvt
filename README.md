@@ -9,7 +9,6 @@
 # Tech Stack
 * Django
 * Postgres
-* LLM(LangChain)
 * Docker
   
 # How to run locally
@@ -48,7 +47,10 @@
     $ docker-compose exec web python manage.py collectstatic
 ```
 ```bash
-    $ http://localhost:8000/
+    $ docker-compose exec web python manage.py loaddata fixtures/devsearch.json
+```
+```bash
+    $ docker-compose exec web python manage.py populate_db
 ```
 
 # Home Page

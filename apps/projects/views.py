@@ -1,3 +1,4 @@
+
 import json
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
@@ -6,14 +7,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 from apps.accounts.mixins import LoginRequiredMixin
-from apps.accounts.validators import validate_uuid
-
 
 from .forms import ReviewForm, ProjectForm
 from .models import Project, Tag
 from .utils import projects_search, paginate_projects, process_tags, add_tags_to_project
 import sweetify
-
+    
 class ProjectListView(View):
     def get(self, request):
         projects, search_query = projects_search(request)
@@ -40,8 +39,18 @@ class ProjectDetailView(View):
             .prefetch_related('tags', 'reviews'),  # Optimize fetching tags and reviews 
             slug=project_slug
         )
+        
+        # Get related projects based on shared tags
+        related_projects = Project.objects \
+            .select_related('owner__user').filter(
+                tags__in=project.tags.all()
+            ).exclude(id=project.id).distinct()[:4]
+        print(related_projects)
+        
         form = ReviewForm()
-        context = {'project': project, 'form': form}
+        context = {'project': project, 
+                   'form': form,
+                   'related_projects': related_projects}
         return render(request, 'projects/project_detail.html', context)
     
     def post(self, request, *args, **kwargs): 

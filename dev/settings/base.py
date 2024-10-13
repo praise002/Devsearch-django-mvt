@@ -176,7 +176,7 @@ STORAGES = {
         'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage'
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        # "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
@@ -328,5 +328,13 @@ CELERY_BEAT_SCHEDULE = {
     'send-reminder-emails-every-day': {
         'task': 'apps.accounts.tasks.send_reminder_emails',
         'schedule': crontab(hour=0, minute=0), # Every day at midnight
+        # 'schedule': 1, 
+    },
+    'send-weekly-updates': {
+        'task': 'apps.accounts.tasks.send_weekly_updates',
+        # 'schedule': crontab(hour=2, minute=0),  # Daily at 2 AM
+        'schedule': 1,
     },
 }
+
+
