@@ -9,7 +9,7 @@ create_env:
 	py -m venv env/catalog
 
 act:
-	.\env\catalog\Scripts\activate
+	.\env\devsearch\Scripts\activate
 
 mmig: 
 	python manage.py makemigrations

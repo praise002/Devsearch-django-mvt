@@ -332,8 +332,8 @@ CELERY_BEAT_SCHEDULE = {
     },
     'send-weekly-updates': {
         'task': 'apps.accounts.tasks.send_weekly_updates',
-        # 'schedule': crontab(hour=2, minute=0),  # Daily at 2 AM
-        'schedule': 1,
+        'schedule': crontab(hour=2, minute=0),  # Daily at 2 AM
+        # 'schedule': 1,
     },
 }
 
