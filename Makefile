@@ -6,10 +6,10 @@ ENV_FILE_PARAM = --env-file .env
 endif
 
 create_env:
-	py -m venv env/catalog
+	python -m venv devsearch
 
 act:
-	.\env\devsearch\Scripts\activate
+	.\devsearch\Scripts\activate
 
 mmig: 
 	python manage.py makemigrations
