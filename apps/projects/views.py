@@ -45,7 +45,6 @@ class ProjectDetailView(View):
             .select_related('owner__user').filter(
                 tags__in=project.tags.all()
             ).exclude(id=project.id).distinct()[:4]
-        print(related_projects)
         
         form = ReviewForm()
         context = {'project': project, 

@@ -7,7 +7,7 @@ class Message(BaseModel):
     sender = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True)
     recipient = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, related_name='messages')
     name = models.CharField(_("Name"), max_length=200, blank=True) 
-    email = models.EmailField(_("Email"), max_length=200, blank=True)
+    email = models.EmailField(_("Email"), max_length=200)
     subject = models.CharField(_("Subject"), max_length=200)
     body = models.TextField(_("Body"))
     is_read = models.BooleanField(default=False)

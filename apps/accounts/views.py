@@ -102,7 +102,7 @@ class VerifyEmail(LogoutRequiredMixin, View):
             user_obj = User.objects.get(id=user_id)
             
         except User.DoesNotExist:
-            sweetify.error(self.request, 'You entered an invalid link')
+            sweetify.error(request, 'You entered an invalid link')
             return redirect(reverse('accounts:login')) 
         
         try:
@@ -118,13 +118,13 @@ class VerifyEmail(LogoutRequiredMixin, View):
         
         if user:
             if user.id != user_obj.id:
-                sweetify.error(self.request, 'You entered an invalid link')
+                sweetify.error(request, 'You entered an invalid link')
                 return redirect(reverse('accounts:login'))
             
             if email_verification_generate_token.check_token(user, token):
                 user.is_email_verified = True
                 user.save()
-                sweetify.toast(self.request, 'Verification successful!')
+                sweetify.toast(request, 'Verification successful!')
                 request.session["verification_email"] = None
                 SendEmail.welcome(request, user)
                 return redirect(reverse('accounts:login'))
@@ -142,16 +142,16 @@ class ResendVerificationEmail(LogoutRequiredMixin, View):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            sweetify.error(self.request, 'Not allowed')
+            sweetify.error(request, 'Not allowed')
             return redirect(reverse('accounts:login'))
         
         if user.is_email_verified:
-            sweetify.info(self.request, 'Email address already verified!')
+            sweetify.info(request, 'Email address already verified!')
             request.session["verification_email"] = None
             return redirect(reverse('accounts:login'))
         
         SendEmail.verification(request, user)
-        sweetify.toast(self.request, 'Email Sent')
+        sweetify.toast(request, 'Email Sent')
         return render(request, 
                       'accounts/email_verification_sent.html')
 

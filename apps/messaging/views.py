@@ -13,7 +13,7 @@ class Inbox(LoginRequiredMixin, View):
         profile = request.user.profile
         message_requests = profile.messages.all()
         unread_count = message_requests.filter(is_read=False).count()
-        print(unread_count)
+        # print(unread_count)
         context = {
             'message_requests': message_requests,
             'unread_count': unread_count,
