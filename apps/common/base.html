@@ -43,10 +43,10 @@
             <li class="header__menuItem"><a href="{% url "accounts:login" %}" class="btn btn--sub">{% trans "Login/Sign Up" %}</a></li>
           {% endif %}
 
-          {% get_current_language as LANGUAGE_CODE %}
+          <!-- {% get_current_language as LANGUAGE_CODE %}
           {% get_available_languages as LANGUAGES %}
           {% get_language_info_list for LANGUAGES as languages %}
-          {% comment %} {% trans "Language" %}:
+          {% trans "Language" %}:
           {% for language in languages %}
             <li class="header__menuItem">
               <a href="/{{ language.code }}/"
@@ -54,7 +54,7 @@
                 {{ language.name_local }}
               </a>
             </li>
-          {% endfor %} {% endcomment %}
+          {% endfor %} -->
         </ul>
       </nav>
     </div>

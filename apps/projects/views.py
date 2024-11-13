@@ -12,6 +12,10 @@ from .forms import ReviewForm, ProjectForm
 from .models import Project, Tag
 from .utils import projects_search, paginate_projects, process_tags, add_tags_to_project
 import sweetify
+
+class RedirectProjectHomeView(View):
+    def get(self, request):
+        return redirect('projects:projects_list')
     
 class ProjectListView(View):
     def get(self, request):

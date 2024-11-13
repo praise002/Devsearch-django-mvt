@@ -21,12 +21,15 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import gettext_lazy as _
 
+from apps.projects.views import RedirectProjectHomeView
+
 handler500 = 'apps.common.views.custom_server_error_view'
 handler404 = 'apps.common.views.custom_404'
 
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls')),
+    path('', RedirectProjectHomeView.as_view()),
     path(_('accounts/'), include('apps.accounts.urls', namespace='accounts')),
     path(_('profiles/'), include('apps.profiles.urls', namespace='profiles')),
     path(_('projects/'), include('apps.projects.urls', namespace='projects')),
