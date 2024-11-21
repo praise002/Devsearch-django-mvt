@@ -66,6 +66,7 @@ class LoginView(LogoutRequiredMixin, View):
                 
             if not user:
                 sweetify.error(request, 'Invalid Credentials')
+                # sweetify.toast(request, 'Invalid Credentials', timer=4000)
                 return redirect('accounts:login')
             
             if not user.user_active:
@@ -181,4 +182,3 @@ class LogoutAllDevices(LoginRequiredMixin, View):
         request.session.flush()  # Clear all session data
         return redirect('accounts:login')  # Redirect to the home page or any other desired page
 
-# TODO: ADD DOCSTRING COMMENTS
