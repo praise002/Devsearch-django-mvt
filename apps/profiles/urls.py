@@ -5,7 +5,8 @@ from .import views
 app_name = "profiles"
 
 urlpatterns = [
-    path('', cache_page(60 * 15, key_prefix='profile_list')(views.ProfileListView.as_view()), name='profile_list'),
+    # path('', cache_page(60 * 15, key_prefix='profile_list')(views.ProfileListView.as_view()), name='profile_list'),
+    path('', views.ProfileListView.as_view(), name='profile_list'),
     
     # URL for editing the current user's profile
     path('edit/', views.ProfileEditView.as_view(), name="profile_edit"),
