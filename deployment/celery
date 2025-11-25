@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Start Celery Beat (scheduler)
+celery -A clothing_store beat --loglevel=info &
+
+# Keep the script running
+wait

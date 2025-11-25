@@ -1,0 +1,94 @@
+services:
+  db:
+    image: postgres:17-alpine
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST=db
+    env_file:
+      - .env
+    
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  web:
+    image: devsearch-web:${IMAGE_TAG}
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    volumes:
+      - static_volume:/app/staticfiles
+    ports:
+      - "8000:8000"
+    healthcheck:
+      # test: curl --fail http://localhost:8000 || exit 1
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/healthcheck"]
+      interval: 10s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+    environment:
+      - SERVICE_TYPE=web
+      - POSTGRES_HOST=db
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    develop:
+      watch:
+        - action: rebuild
+          path: Dockerfile.dev
+        - action: rebuild 
+          path: requirements.txt
+        - action: rebuild 
+          path: docker-compose.dev.yml
+
+  celery-beat:
+    image: celery-beat:${IMAGE_TAG}
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - SERVICE_TYPE=celery-beat
+    depends_on:
+      - db
+      - redis
+
+  flower:
+    image: mher/flower:2.0.0
+    restart: always
+    ports:
+      - "5555:5555"
+    env_file:
+      - .env
+    environment:
+      - FLOWER_BASIC_AUTH=admin:${FLOWER_PASSWORD}
+      - BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+  
+volumes:
+  postgres_data: 
+  redis_data:
+  static_volume: 

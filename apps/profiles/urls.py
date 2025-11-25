@@ -1,5 +1,5 @@
 from django.urls import path
-from django.views.decorators.cache import cache_page
+# from django.views.decorators.cache import cache_page
 from .import views
 
 app_name = "profiles"
@@ -14,7 +14,8 @@ urlpatterns = [
     path('account/', views.AccountView.as_view(), name='account'),
     
     # URL for viewing a specific user's profile by username
-    path('<str:username>/', cache_page(60 * 15)(views.ProfileDetailView.as_view()), name="profile_detail"),
+    # path('<str:username>/', cache_page(60 * 15)(views.ProfileDetailView.as_view()), name="profile_detail"),
+    path('<str:username>/', views.ProfileDetailView.as_view(), name="profile_detail"),
 
     # URL for adding and editing the current user's skills
     path('skill/add/', views.SkillCreateView.as_view(), name="skill_add"),

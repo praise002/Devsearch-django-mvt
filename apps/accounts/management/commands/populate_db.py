@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand
-from apps.accounts.models import User
 from apps.profiles.models import Profile, Skill
 from apps.projects.models import Project, Tag, Review
 import random
@@ -157,7 +156,7 @@ class Command(BaseCommand):
             # Populate skills
             for _ in range(3):
                 skill_name = random.choice(skills_list)  
-                skill, created = Skill.objects.get_or_create(
+                _, created = Skill.objects.get_or_create(
                     user=profile,
                     name=skill_name,
                     defaults={'description': random.choice(skill_desc)}
@@ -207,7 +206,7 @@ class Command(BaseCommand):
                     review_value = random.choice(['up', 'down'])
                     review_content = random.choice(review_content_list) 
 
-                    review, created = Review.objects.get_or_create(
+                    _, created = Review.objects.get_or_create(
                         project=project,
                         reviewer=reviewer,
                         defaults={

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Stop the script immediately if any command fails
+set -e
+
+# Wait for database to be ready
+./wait-for-it.sh db:5432 -- echo "PostgreSQL is up!"
+
+# Apply migrations - Only run Django management commands for web service
+if [ "$SERVICE_TYPE" = "web" ]; then
+  echo "Running migrations..."
+  python manage.py migrate --noinput
+  
+  echo "Creating sample data..."
+  python manage.py loaddata fixtures/devsearch.json
+
+  # Collect static files
+  echo "Collecting static files..."
+  python manage.py collectstatic --noinput
+
+  exec gunicorn --bind 0.0.0.0:8000 devsearch.wsgi:application
+elif [ "$SERVICE_TYPE" = "celery-beat" ]; then
+  echo "Waiting for Django to be ready..."
+  while ! curl -s http://web:8000 >/dev/null; do
+    echo "Django not ready. Retrying in 5s..."
+    sleep 5
+  done
+  
+  exec celery -A devsearch beat --loglevel=info
+  
+fi
+
+# Execute the command passed to the script
+echo "Executing: $@"
+exec "$@"

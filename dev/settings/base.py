@@ -189,10 +189,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-# EMAIL_PORT = config('EMAIL_PORT')
-# EMAIL_USE_SSL = config('EMAIL_USE_SSL')
-EMAIL_PORT = 587 
-EMAIL_USE_TLS = True
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -316,7 +314,7 @@ JAZZMIN_SETTINGS = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379',
+        'LOCATION': config("REDIS_URL"),
     }
 }
 
@@ -329,7 +327,6 @@ CELERY_BEAT_SCHEDULE = {
     'send-weekly-updates': {
         'task': 'apps.accounts.tasks.send_weekly_updates',
         'schedule': crontab(hour=2, minute=0),  # Daily at 2 AM
-        # 'schedule': 1,
     },
 }
 
