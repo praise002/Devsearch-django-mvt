@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.11-slim'
-            args '--user 0'  // Run as root to avoid permission issues
-        }
-    }
+    agent any
     // environment {
     //     SETTINGS = credentials('django-settings')
     //     // Database

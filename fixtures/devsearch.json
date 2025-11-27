@@ -85,27 +85,6 @@
   },
   {
     "model": "accounts.user",
-    "pk": "de40dc05-ec7a-4f90-9125-2c2341d62c6c",
-    "fields": {
-      "password": ")ijK+*#_l5WR",
-      "last_login": null,
-      "first_name": "Benjamin",
-      "last_name": "Smith",
-      "username": "benjamin-smith",
-      "email": "benjamin-smith@gmail.com",
-      "is_staff": false,
-      "is_active": true,
-      "is_superuser": false,
-      "is_email_verified": true,
-      "user_active": true,
-      "created_at": "2024-09-17T00:40:21.085Z",
-      "updated_at": "2024-09-17T00:40:21.085Z",
-      "groups": [],
-      "user_permissions": []
-    }
-  },
-  {
-    "model": "accounts.user",
     "pk": "e8ac06d5-2543-4e8c-9347-f4e1b64789b9",
     "fields": {
       "password": "pbkdf2_sha256$870000$hsu5bXFQrhz57AUjsKD7SN$s8wN9ytymRkHoVoG7Y88PRE/T0CVpQYQdND0cFBsMxs=",
