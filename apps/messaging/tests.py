@@ -92,6 +92,8 @@ class CreateMessageTests(TestCase):
         )
         
         data = {
+            'name': "Test name",
+            'email': 'test@gmail.com',
             'subject': 'New Message',
             'body': 'This is a test message.'
         }

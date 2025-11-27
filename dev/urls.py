@@ -14,32 +14,42 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+
 from django.conf import settings
-from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.http import JsonResponse
+from django.urls import include, path
 from django.utils.translation import gettext_lazy as _
+from django.views import View
 
 from apps.projects.views import RedirectProjectHomeView
 
-handler500 = 'apps.common.views.custom_server_error_view'
-handler404 = 'apps.common.views.custom_404'
+handler500 = "apps.common.views.custom_server_error_view"
+handler404 = "apps.common.views.custom_404"
+
+
+class HealthCheckView(View):
+    """
+    A simple view that returns a 200 OK response.
+    """
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({"status": "ok"})
+
 
 urlpatterns = i18n_patterns(
-    path('admin/', admin.site.urls),
-    path('__debug__/', include('debug_toolbar.urls')),
-    path('', RedirectProjectHomeView.as_view()),
-    path(_('accounts/'), include('apps.accounts.urls', namespace='accounts')),
-    path(_('profiles/'), include('apps.profiles.urls', namespace='profiles')),
-    path(_('projects/'), include('apps.projects.urls', namespace='projects')),
-    path('rosetta/', include('rosetta.urls')),
-    path('', include('apps.messaging.urls', namespace='messages')),
+    path("admin/", admin.site.urls),
+    path("__debug__/", include("debug_toolbar.urls")),
+    path("", RedirectProjectHomeView.as_view()),
+    path(_("accounts/"), include("apps.accounts.urls", namespace="accounts")),
+    path(_("profiles/"), include("apps.profiles.urls", namespace="profiles")),
+    path(_("projects/"), include("apps.projects.urls", namespace="projects")),
+    path("rosetta/", include("rosetta.urls")),
+    path("", include("apps.messaging.urls", namespace="messages")),
 )
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, 
-                          document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, 
-                          document_root=settings.STATIC_ROOT) 
-
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
