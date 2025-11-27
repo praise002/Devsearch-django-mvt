@@ -1,5 +1,7 @@
 # DevSearch
 
+![Django Tests](https://github.com/praise002/tech-hive/actions/workflows/django-tests.yml/badge.svg)
+
 DevSearch is a platform designed for developers to showcase their projects, connect with other developers, share feedback, and collaborate. Built with Django and PostgreSQL, it provides a comprehensive ecosystem for developer networking and project discovery.
 
 ## Table of Contents
