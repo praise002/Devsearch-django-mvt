@@ -45,7 +45,7 @@ pipeline {
         stage('Setup Python') {
             steps {
                 sh '''
-                    python --version
+                    python3 --version
                     pip --version
                     echo "Current directory: $(pwd)"
                     echo "Python path: ${PYTHONPATH}"
