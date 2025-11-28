@@ -18,7 +18,8 @@ DATABASES = {
 }
 
 # CELERY_BROKER_URL = 'redis://localhost:6371/1'
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_BROKER_URL = config("REDIS_URL")
 
 
 if DEBUG:

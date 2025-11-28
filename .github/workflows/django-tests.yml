@@ -15,6 +15,7 @@ jobs:
             postgres:
                 image: postgres:14
                 env:
+                  # in .env set postgres_host=localhost to avoid errors
                     POSTGRES_DB: test_db
                     POSTGRES_USER: postgres
                     POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -22,6 +23,7 @@ jobs:
                     - 5432:5432
 
             # Set up Redis service for Celery
+            # in .env use this as REDIS_URL=redis://redis:6379
             redis:
                 image: redis:6
                 ports:
