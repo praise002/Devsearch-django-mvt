@@ -3,31 +3,41 @@ from .base import *
 DEBUG = False
 
 ADMINS = [
-    ('Praise Idowu', 'ifeoluwapraise02@gmail.com'),
+    ("Praise Idowu", "ifeoluwapraise02@gmail.com"),
 ]
 
-# ALLOWED_HOSTS = ['.vercel.app', '.now.sh'] 
-ALLOWED_HOSTS = ['*'] 
 
-DATABASES = {
-    'default': {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("POSTGRES_DB"),
-        "USER": config("POSTGRES_USER"),
-        "PASSWORD": config("POSTGRES_PASSWORD"),
-        "HOST": "db",
-        "PORT": config("POSTGRES_PORT"),
-    }
-}
+ALLOWED_HOSTS = ["*"]
+DATABASE_URL = config("DATABASE_URL")
 
-REDIS_URL = 'redis://cache:6379/0'
-CACHES['default']['LOCATION'] = REDIS_URL
+DATABASES = {}
 
-# CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_BROKER_URL = 'redis://cache:6379/1'
+if DATABASE_URL:
+    import dj_database_url
 
-# STORAGES = {
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-#     },
-# }
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASES["default"] = dj_database_url.config(
+            conn_max_age=500,
+            conn_health_checks=True,
+        )
+
+# REDIS_URL = "redis://cache:6379/0"
+REDIS_URL = config("REDIS_URL")  #  prod uses prod redis url
+
+CACHES["default"]["LOCATION"] = REDIS_URL
+
+# CELERY_BROKER_URL = "redis://cache:6379/1"
+CELERY_BROKER_URL = config("REDIS_URL")
+
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)  # Fixed too many redirects
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
